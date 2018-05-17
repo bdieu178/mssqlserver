@@ -1,4 +1,4 @@
-# Microsoft SSAS & SSIS Lab Work
+# SSAS & SSIS course work
 
 My work in SSAS & SSIS from RPI's MGMT 4170 Data Resource Management course
 
