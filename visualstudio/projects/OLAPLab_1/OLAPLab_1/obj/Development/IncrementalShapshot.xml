@@ -1,0 +1,75 @@
+﻿<DeploymentSnapshot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0">
+  <Target>
+    <Database>OLAPLab_1</Database>
+    <Server>BRYANDIEUDOF807\SQLSERVERLAB</Server>
+    <ConnectionString>DataSource=BRYANDIEUDOF807\SQLSERVERLAB;Timeout=0</ConnectionString>
+  </Target>
+  <Options>
+    <TransactionalDeployment>false</TransactionalDeployment>
+    <PartitionDeployment>DeployPartitions</PartitionDeployment>
+    <RoleDeployment>DeployRolesRetainMembers</RoleDeployment>
+    <ProcessingOption>Default</ProcessingOption>
+    <OutputScript></OutputScript>
+    <ImpactAnalysisFile></ImpactAnalysisFile>
+    <ConfigurationSettingsDeployment>Deploy</ConfigurationSettingsDeployment>
+    <OptimizationSettingsDeployment>Deploy</OptimizationSettingsDeployment>
+    <WriteBackTableCreation>UseExisting</WriteBackTableCreation>
+  </Options>
+  <Snapshot>
+    <ObjectSnapshots>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.RelationalDataSource</Type>
+        <TimeStamp>I35j7UdUB40omD567Vuelx4vdxk=12/9/17 12:27:39 PM12/9/17 12:27:39 PM</TimeStamp>
+        <ID>
+          <String>Adventure Works DW2014</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.DataSourceView</Type>
+        <TimeStamp>oZdBa6/+wkhvqI4DuR8jaZZtsO0=12/9/17 6:46:28 PM12/8/17 9:15:18 AM</TimeStamp>
+        <ID>
+          <String>Adventure Works DW2014</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Dimension</Type>
+        <TimeStamp>+Mvpbe/r30HQ8AxShsNuNbfUHvU=12/8/17 9:32:17 AM12/8/17 9:32:17 AM</TimeStamp>
+        <ID>
+          <String>Date</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Dimension</Type>
+        <TimeStamp>/Mjz9AX85x5IleNjJzwizIHcVH8=12/9/17 6:53:46 PM12/8/17 9:39:42 AM</TimeStamp>
+        <ID>
+          <String>Customer</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Dimension</Type>
+        <TimeStamp>uzdVnVmiBtIgQd7IQkNn9ZtxLC0=12/8/17 11:44:57 AM12/8/17 9:39:42 AM</TimeStamp>
+        <ID>
+          <String>Product</String>
+        </ID>
+      </ObjectSnapshot>
+      <ObjectSnapshot>
+        <Type>Microsoft.AnalysisServices.Cube</Type>
+        <TimeStamp>wAj+Ca8QIFKnKSq+NDGt5HBRFDo=12/9/17 1:22:17 PM12/8/17 9:39:42 AMVXuFvMmDIuPzc64/39yOGSJ7XeQ=12/8/17 9:39:42 AM12/8/17 9:39:42 AM</TimeStamp>
+        <ID>
+          <String>Cube_InternetSales</String>
+        </ID>
+      </ObjectSnapshot>
+    </ObjectSnapshots>
+    <DatabaseSnapshot>
+      <Type>Microsoft.AnalysisServices.Database</Type>
+      <TimeStamp>tlq4q+E2zKeJXAaFrn/htJsLk48=12/8/17 8:59:00 AM12/8/17 8:58:59 AM</TimeStamp>
+      <ID>
+        <String>OLAPLab_1</String>
+      </ID>
+    </DatabaseSnapshot>
+    <Granularity>Coarse</Granularity>
+  </Snapshot>
+  <AssemblyLocations />
+  <ProcessingComplete>true</ProcessingComplete>
+  <LastDeployed>2017-12-09T23:55:10.44Z</LastDeployed>
+</DeploymentSnapshot>
