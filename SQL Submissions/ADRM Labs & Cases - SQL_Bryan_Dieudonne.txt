@@ -1,0 +1,2927 @@
+Chapter 5 -
+
+47.
+SELECT *
+FROM Customers
+
+48.
+Select*
+FROM Orders
+WHERE 0=1;
+
+49.
+SELECT lastname, firstname, address, city, state, zip
+FROM Customers
+
+50.
+SELECT state, city, lastname, firstname
+FROM Customers
+
+51.
+SELECT *
+FROM Customers
+WHERE city = 'Boston'
+
+52.
+SELECT companyname, contactname
+FROM suppliers
+WHERE state = 'NY'
+
+53.
+SELECT companyname AS Company, contactname AS [Supplier Contact]
+FROM suppliers
+
+54.
+SELECT 'Dear' + ' ' + [firstname] + ' ' + 'We would like you to know that our full product catalog is on sale in the city of' + ' ' +[city] + ' ' + 'Please visit our website at: http://www.company.com' As CustomerLetter
+FROM customers
+
+55.
+SELECT *
+FROM Customers
+ORDER BY lastname
+
+56.
+SELECT *
+FROM Customers
+WHERE city <> 'Boston'
+ORDER BY lastname
+
+57.
+SELECT State, Count(CustomerID) As NumberOfCustomers
+FROM Customers
+WHERE State <> 'NY'
+GROUP BY State
+HAVING Count(CustomerID) >10 ORDER BY Count(CustomerID) DESC
+
+58.
+CREATE TABLE Customer2
+([CustomerID] int identity (1,1) Primary key not null, [LastName] nvarchar(50),
+[FirstName] nvarchar(50),
+[Address] nvarchar(100),
+[City] nvarchar(50))
+
+59.
+INSERT INTO Customer2 (firstname, lastname, address, city)
+SELECT firstname, lastname, address, city
+FROM customers
+WHERE State = 'NY'
+
+60.
+SELECT *
+INTO Products_Backup
+FROM Products
+
+61.
+SELECT ProductName, UnitsInStock, UnitsOnOrder
+INTO Products_Subset
+FROM Products
+WHERE SupplierID IN (1,2,3,4)
+
+62.
+SELECT customers.lastname, customers.firstName, Orders.OrderDate, ProductsOrders.UnitPrice, ProductsOrders.Quantity
+INTO TempCustomersOrders
+FROM (customers INNER JOIN Orders ON customers.CustomerID = Orders.CustomerID) INNER JOIN ProductsOrders ON Orders.OrderID = ProductsOrders.OrderID
+WHERE customers.State='NY'
+
+63.
+SELECT * INTO Products1
+FROM Products
+WHERE 1=2
+
+64.
+SELECT ProductID, ProductName, QuantityPerUnit, ProductUnitPrice INTO Products2
+FROM Products
+WHERE 1=2
+
+65.
+SELECT Name, Type
+FROM SysObjects
+WHERE Type = 'U'
+
+66.
+SELECT Name, Type
+FROM SysObjects
+WHERE Type = 'S'
+
+Chapter 5 Case2 -
+
+Q1.
+Select *
+INTO products52_backup
+from products
+
+Q2.
+Select productname, quantityperunit, productunitprice, unitsinstock
+INTO Products53_Backup
+FROM products
+WHERE supplierID IN (5,6,7,8,9)
+
+Q3.
+Create Table Products54
+([ProductID] int identity (1,1) Primary key not null,
+[ProductName] nvarchar(50),
+[Distributor]nvarchar(50),
+[UnitPrice]money,
+[UnitsInStock]smallint)
+
+Q4.
+INSERT INTO Products54(ProductID, ProductName, UnitPrice)
+Select ProductID, ProductName, ProductUnitPrice
+FROM products
+WHERE ProductUnitPrice > 25
+
+Q5.
+Select *
+FROM Products
+WHERE ProductUnitPrice > 30
+ORDER by productname ASC
+
+
+
+Chapter 6 -
+
+69.
+SELECT *
+FROM customers
+WHERE city = 'New York' OR city = 'Houston'
+
+70.
+SELECT lastname, firstname, city, state
+FROM customers
+WHERE city IN ('Albany', 'Denver', 'Houston', 'Phoenix')
+ORDER BY lastname ASC
+
+71.
+SELECT productname, unitsinstock, unitsonorder
+FROM products
+WHERE UnitsInStock > 10 OR UnitsOnOrder > 10
+
+72.
+SELECT productname, unitsinstock, unitsonorder
+FROM products
+WHERE UnitsInStock > 10
+UNION
+SELECT productname, unitsinstock, unitsonorder
+FROM products
+WHERE UnitsOnOrder > 10
+
+73.
+SELECT lastname, firstname, city, state
+FROM customers
+WHERE state = 'NY' AND city = 'Albany'
+
+74.
+SELECT lastname, firstname, city, state
+FROM customers
+WHERE
+state = 'NY' AND city = 'Albany'
+OR
+state = 'NY' AND city = 'New York' ORDER BY lastname
+
+75.
+SELECT lastname, firstname, city, state
+FROM customers
+WHERE
+state = 'NY' AND city = 'Albany'
+OR
+state = 'TX' AND city = 'Houston'
+OR
+state = 'AZ' AND city = 'Phoenix'
+ORDER BY lastname
+
+Chapter 6 Case2 -
+Q1.
+Select *
+FROM Products
+WHERE ProductUnitPrice > 30
+ORDER by productname ASC
+
+Q2.
+Select *
+FROM customers
+WHERE State IN ('NY','MA','AZ','TX')
+
+Q3.
+Select *
+FROM customers
+WHERE State= 'NY'
+UNION
+Select *
+FROM customers
+WHERE State= 'MA'
+UNION
+Select *
+FROM customers
+WHERE State= 'AZ'
+UNION
+Select *
+FROM customers
+WHERE State= 'TX'
+
+Q4.
+Select *
+FROM Customers
+WHERE State NOT IN ('CA','AZ','MA')
+
+Q5.
+Select *
+FROM customers
+WHERE zip NOT IN ('22459')
+
+
+Chapter 7 -
+
+78.
+SELECT *
+FROM Customers ORDER BY lastname ASC
+
+79.
+SELECT *
+FROM Customers
+ORDER BY lastname DESC
+
+80.
+SELECT city, lastname, firstname
+FROM Customers
+ORDER BY city, lastname ASC
+
+81.
+SELECT city, lastname, firstname
+FROM Customers
+ORDER BY city ASC, lastname DESC
+
+82.
+SELECT lastname, firstname
+FROM Customers
+ORDER BY firstname ASC
+
+83.
+SELECT productname, unitsinstock
+FROM products
+ORDER BY unitsinstock DESC
+
+84.
+SELECT orderid, orderdate, shippeddate
+FROM ORDERS
+ORDER BY orderdate DESC
+
+85.
+SELECT TOP 5 unitsinstock, productname
+FROM products
+ORDER BY unitsinstock DESC
+
+86.
+SELECT *
+FROM View_Conditions
+WHERE STATE in ('NY','CA','TX') ORDER BY
+CASE State
+When "NY" THEN 1
+When "CA" THEN 2
+When "TX" THEN 3
+Else 4
+End
+
+Chapter 7 Case2
+
+Q1.
+Select State, City, LastName, FirstName
+FROM customers
+ORDER by state, city
+ASC
+
+Q2.
+Select State, City, LastName, FirstName
+FROM customers
+ORDER by state asc, city desc
+
+Q3.
+Select TOP 10 ShippedDate, OrderID, CustomerID, OrderDate, ShippingCost
+FROM orders
+ORDER by shippeddate desc
+
+Q4.
+Select top 10 ShippingCost, OrderID, CustomerID, OrderDate, ShippedDate
+FROM orders
+ORDER by shippingcost desc
+
+Q5.
+Select CustomerID, FirstName, LastName, City, State
+FROM customers
+ORDER by
+CASE city
+WHEN 'Boston' then 1
+WHEN 'Albany' then 2
+WHEN 'Orlando' then 3
+WHEN 'Miami' then 4
+ELSE 5
+end
+
+
+Chapter 8 -
+
+89.
+SELECT *
+FROM customers
+WHERE lastname Like 'D%'
+
+90.
+SELECT *
+FROM customers
+WHERE lastname Like 'Da_e%'
+
+91.
+SELECT *
+FROM customers
+WHERE lastname Like 'C[ru]%'
+
+92.
+SELECT *
+FROM customers
+WHERE lastname Like '[^abcde]%'
+ORDER BY lastname
+
+93.
+SELECT *
+FROM customers
+WHERE lastname Like '[^a-p]%'
+ORDER BY lastname
+
+94.
+SELECT *
+FROM customers
+WHERE lastname Like '[a-p]%'
+ORDER BY lastname
+
+Chapter 8 Case2
+
+Q1.
+Select *
+FROM products
+WHERE productname like '[a-e]%'
+
+Q2.
+Select *
+FROM Products
+WHERE productname like '[a,d,e,k,l]%'
+ORDER by productname
+
+Q3.
+Select ProductName, ProductUnitPrice, SKU
+FROM products
+WHERE SKU like 'PD[a-z]%[0-9][0-9][0-9][0-9]'
+
+Q4.
+Select ProductName, ProductUnitPrice, SKU
+FROM products
+WHERE SKU like '[a-p]%[a-z]%-[0-9][0-9]89'
+
+Q5.
+Select ProductName, ProductUnitPrice, SKU
+FROM products
+WHERE SKU like '[a-z]%-2345'
+
+Chapter 9 -
+
+97.
+SELECT *
+FROM tbls_CustomerOrders
+WHERE lastname like 'M%'
+
+98.
+SELECT lastname, firstname, city, zip
+FROM tbls_CustomerOrders
+WHERE zip like '[1-4]%'
+
+99.
+SELECT lastname, firstname, orderdate
+FROM tbls_CustomerOrders
+WHERE OrderDate Like '%-04-%'
+
+100.
+SELECT lastname, firstname, orderdate, OrderTotal
+FROM tbls_CustomerOrders
+WHERE OrderTotal Like 200
+
+SELECT lastname, firstname, orderdate, OrderTotal
+FROM tbls_CustomerOrders
+WHERE OrderTotal = 200
+
+101.
+SELECT lastname, firstname, orderdate, OrderTotal
+FROM tbls_CustomerOrders
+WHERE OrderTotal LIKE '[2-3]__'
+ORDER BY OrderTotal
+
+SELECT lastname, firstname, orderdate, OrderTotal
+FROM tbls_CustomerOrders
+WHERE OrderTotal BETWEEN 200 AND 400
+ORDER BY OrderTotal
+
+102.
+SELECT lastname, firstname, orderdate, OrderTotal
+FROM tbls_CustomerOrders
+WHERE OrderTotal NOT Like 200
+
+SELECT lastname, firstname, orderdate, OrderTotal
+FROM tbls_CustomerOrders
+WHERE OrderTotal != 200
+
+SELECT lastname, firstname, orderdate, OrderTotal
+FROM tbls_CustomerOrders
+WHERE OrderTotal <> 200
+
+103.
+SELECT lastname, firstname, orderdate, OrderTotal
+FROM tbls_CustomerOrders
+WHERE firstname LIKE 'Mary'
+
+104.
+SELECT lastname, firstname, city, orderdate
+FROM tbls_CustomerOrders
+WHERE city LIKE '% % %'
+
+105.
+SELECT lastname, firstname, city, orderdate
+FROM tbls_CustomerOrders
+WHERE city LIKE '%[0-9]%'
+
+106.
+CREATE INDEX indCity ON tbls_CustomerOrders (city)
+
+Chapter 9 Case2 -
+
+Q1.
+Select ProductName, ProductUnitPrice, SKU
+FROM products
+WHERE productname like '%%%'
+
+Q2.
+Select *
+FROM products
+WHERE productname like '%[0-9]%'
+
+Q3.
+Select productname, sku
+FROM products
+WHERE sku like '% %'
+
+Q4.
+Create Index IndProductName on products(productname)
+
+Q5.
+Select *
+FROM products
+WHERE productunitprice like '[1,5]%[0-9]%'
+ORDER by productunitprice asc
+
+
+Chapter 10
+
+109.
+SELECT *
+FROM Customers
+WHERE lastname = 'Delaney'
+
+
+110.
+SELECT *
+FROM Orders
+WHERE OrderID = 972
+
+
+111.
+SELECT OrderID, OrderDate, ShippedDate,ShippingCost
+FROM Orders
+WHERE OrderDate > '2013-06-30'
+ORDER BY OrderDate
+
+112.
+SELECT OrderID, OrderDate, ShippedDate, ShippingCost FROM Orders
+WHERE OrderDate >= '2013/6/30'
+ORDER BY OrderDate
+
+113.
+SELECT OrderID, OrderDate, ShippedDate, ShippingCost FROM Orders
+WHERE ShippingCost < 35
+ORDER BY ShippingCost DESC
+
+114.
+SELECT OrderID, OrderDate, ShippedDate, ShippingCost FROM Orders
+WHERE ShippingCost <= 35
+ORDER BY ShippingCost DESC
+
+115.
+SELECT OrderID, OrderDate, ShippedDate, ShippingCost FROM Orders
+WHERE ShippingCost <> 35
+ORDER BY ShippingCost DESC
+
+116.
+SELECT OrderID, OrderDate, ShippedDate, ShippingCost FROM Orders
+WHERE OrderDate > '2013-06-30'
+AND ShippingCost < 35
+ORDER BY ShippingCost DESC
+
+Chapter 10 Case2 -
+
+Q1.
+Select *
+From Orders
+Where OrderDate >= '2013-04-01'
+AND OrderDate <= '2013-04-30'
+Order by OrderDate DESC
+
+Q2.
+Select OrderID, CustomerID, OrderDate
+From Orders
+Where datepart(month, OrderDate) in ('03','04')
+and datepart(year, OrderDate) in ('2012','2013','2014')
+
+Q3.
+Select OrderID, CustomerID, OrderDate, ShippingCost
+From Orders
+Where ShippingCost >=30 and shippingcost <=40
+
+
+Q4.
+Select OrderID, OrderDate, ShippingCost
+From Orders
+Where shippingcost <> 35
+
+Q5.
+Select OrderID, CustomerID, OrderDate, ShippingCost
+From Orders
+Where ShipperID = 3
+
+
+Chapter 11
+
+119.
+SELECT productname, productunitprice
+FROM products
+WHERE productunitprice BETWEEN 15 AND 18
+ORDER BY productunitprice
+
+120.
+SELECT OrderID, orderdate, shippeddate
+FROM orders
+WHERE orderdate BETWEEN '2012-06-15' AND '2013-06-15'
+ORDER BY orderdate DESC
+
+121.
+SELECT OrderID, orderdate, shippeddate
+FROM orders
+WHERE year(orderdate) BETWEEN 2013 AND 2014
+ORDER BY orderdate DESC
+
+122.
+SELECT productname, productunitprice
+FROM products
+WHERE productunitprice NOT BETWEEN 10 AND 40
+ORDER BY productunitprice ASC
+
+123.
+SELECT productname, productunitprice
+FROM products
+WHERE productunitprice BETWEEN 15 AND 18
+ORDER BY productunitprice ASC
+
+Chapter 11 Case 2
+
+Q1.
+Select OrderID, State, City, ShippedDate, OrderTotal
+from tbls_CustomerOrders
+where month(shippeddate) between 04 and 12
+and year(shippeddate) = 2014
+order by shippeddate DESC
+
+Q2.
+Select OrderID, State, City, OrderDate, OrderTotal
+from tbls_CustomerOrders
+where year(orderdate) = 2014
+and month(orderdate) between 06 and 12
+and OrderTotal between 200 and 300
+order by ordertotal ASC
+
+Q3.
+Select *
+from tbls_customerorders
+where month(shippeddate) = 06
+and year(shippeddate) = 2014
+
+Q4.
+Select OrderID, State, City, OrderDate, OrderTotal
+from tbls_CustomerOrders
+where ordertotal between 0 and 50
+order by ordertotal asc
+
+Q5.
+Select OrderID, OrderDate, ShippedDate, OrderTotal
+From tbls_CustomerOrders
+Where month(orderdate) between 09 and 12
+and year(orderdate) = 2014
+and ordertotal between 300 and 500
+order by ordertotal DESC
+
+Chapter 12
+
+126.
+
+SELECT LastName, FirstName, City
+FROM customers
+WHERE city = 'New York'
+OR city = 'Boston'
+OR city = 'Chicago'
+OR city = 'Los Angeles'
+OR city = 'Dallas'
+
+SELECT lastname, firstname, City
+FROM customers
+WHERE city in ('New York', 'Boston', 'Chicago', 'Los Angeles', 'Dallas')
+
+127.
+SELECT lastname, firstname, city
+FROM customers
+WHERE city NOT IN ('New York', 'Boston', 'Chicago', 'Los Angeles', 'Dallas')
+
+128.
+SELECT productname, quantityperunit, productunitprice FROM products
+WHERE productunitprice in (15, 19, 22, 23, 42)
+
+129.
+SELECT OrderID, OrderDate, ShippedDate, ShippingCost FROM Orders
+WHERE
+OrderDate IN ('2012-6-1', '2012-7-1', '2012-8-1')
+
+130.
+SELECT firstname, lastname, address
+FROM customers
+WHERE 'Mary' IN (firstname, lastname, address)
+
+131.
+SELECT orderid, orderdate, shippeddate
+FROM orders
+WHERE orderid
+IN (SELECT orderid FROM ProductsOrders WHERE (Discount) =0)
+
+132.
+SELECT orderid, orderdate, shippeddate
+FROM orders
+WHERE orderid
+IN (SELECT orderid FROM ProductsOrders GROUP BY orderid HAVING sum(Discount) =0)
+
+133.
+SELECT *
+FROM Customers
+WHERE CustomerID NOT IN
+(Select CustomerID FROM Orders WHERE OrderDate BETWEEN '2013-6-1' AND '2013-12-31')
+
+134.
+SELECT *
+FROM Customers
+WHERE CustomerID NOT IN
+(Select CustomerID FROM Orders WHERE year(orderdate) = 2013)
+
+Chapter 12 Case2 -
+
+Q1.
+Select FirstName, LastName, Address, City, State, Zip
+From SalesReps
+Where Zip IN (22459, 12189)
+order by lastname ASC
+
+Q2.
+Select *
+from orders
+where customerid IN
+(select customerid from customers where
+firstname in ('Andrew','Lisa','William') and lastname in ('Demichele', 'Zartons','Teall'))
+order by customerid
+
+Q3.
+Select *
+From salesreps
+where salesrepid NOT IN
+(select salesrepid from orders where
+year(orderdate)=2014 and month(orderdate)=12 and day(orderdate) between 17 and 31)
+order by lastname asc
+
+Q4.
+Select *
+from orders
+where customerid NOT IN
+(select customerid from customers)
+
+Q5.
+Select *
+From Customers
+Where CustomerID IN
+(select customerid from orders where
+year(orderdate)= 2014 and month(orderdate) between 02 and 03)
+order by lastname ASC
+
+
+
+Chapter 13
+
+137.
+SELECT city
+FROM customers
+
+138.
+SELECT DISTINCT city
+FROM customers
+
+139.
+If we run a simple SELECT statement such as:
+SELECT firstname, state FROM customers
+WHERE firstname='John'
+
+If we include the DISTINCT clause such as:
+SELECT DISTINCT firstname, state FROM customers
+WHERE firstname='John'
+
+140.
+SELECT ContactTitle,Count(ContactTitle) AS CountNumber FROM suppliers
+GROUP BY ContactTitle
+
+Chapter 13 Case2 -
+
+Q1.
+Select DISTINCT state
+from suppliers
+order by state ASC
+
+Q2.
+Select DISTINCT city
+from salesreps
+order by city ASC
+
+Q3.
+Select DISTINCT city, count(salesrepid) as CountNumber
+from salesreps
+group by city
+order by city ASC
+
+Q4.
+Select DISTINCT discount
+from productsorders
+order by discount DESC
+
+Q5.
+Select DISTINCT discount, count(productID) as ProductNumber
+from productsorders
+group by discount
+order by discount ASC
+
+
+Chapter 14
+
+143.
+SELECT TOP 5 productname, unitsinstock, unitsonorder
+FROM Products
+
+144.
+SELECT TOP 5 productname, unitsinstock, unitsonorder FROM Products
+ORDER BY unitsinstock DESC
+
+145.
+SELECT TOP 10 PERCENT productname, productunitprice FROM Products
+ORDER BY productunitprice DESC
+
+146.
+SELECT TOP 5 lastname, firstname, DateofHire FROM SalesReps
+ORDER BY DateofHire DESC
+
+147.
+SELECT TOP 10 orderid, Sum(([unitprice]*[quantity])) AS orderamount FROM ProductsOrders
+GROUP BY orderid
+ORDER BY Sum(([unitprice]*[quantity])) DESC;
+
+148.
+SELECT TOP 10 orderid, productid, (unitprice*quantity) AS orderamount FROM ProductsOrders
+WHERE (productid=2)
+ORDER BY (unitprice*quantity) DESC;
+
+Chapter 14 Case2 -
+
+Q1.
+Select TOP 5 firstname, lastname, title, dateofhire
+from salesreps
+order by DateofHire ASC
+
+Q2.
+Select TOP 10 OrderID, CustomerID, OrderDate, ShippedDate
+from orders
+order by shippeddate DESC
+
+Q3.
+Select TOP 20 OrderID, Sum(([unitprice]*[quantity])) AS OrderAmount
+From ProductsOrders
+Group By orderid
+Order By Sum(([unitprice]*[quantity])) DESC
+
+Q4.
+Select TOP 10 OrderID, Sum(([unitprice]*[quantity])) AS OrderAmount
+From ProductsOrders
+Where ProductID IN
+(Select ProductID From Products Where
+ProductName = 'California Original Pistachios - 1 lb. Bag')
+Group by OrderID
+Order By Sum(([unitprice]*[quantity])) DESC
+
+Q5.
+Select TOP 3 SalesRepID, count(OrderID) as CountOfOrders
+From orders
+group by SalesRepID
+Order by CountOfOrders DESC
+
+
+
+Chapter 15
+
+151.
+
+SELECT productname, productunitprice + 2 AS productprice
+FROM Products
+
+152.
+SELECT productname, productunitprice * (1.02) as productprice
+FROM Products
+
+153.
+
+SELECT productname, unitsinstock, unitsonorder, (unitsinstock + unitsonorder)
+AS TotalUnits
+FROM products
+
+154.
+SELECT OrderID, Sum([UnitPrice]*[quantity]) AS OrderSubtotal
+FROM ProductsOrders
+GROUP BY OrderID
+
+155.
+SELECT ProductName, ProductUnitPrice * (1-0.2) as PromotionalPrice
+ FROM Products
+
+156.
+SELECT ProductUnitPrice* (1+0.2) AS ProductPrice
+FROM products
+
+157.
+SELECT productname,
+CASE
+When SupplierID = 1 Then ProductUnitPrice*(1-0.2)
+When SupplierID = 2 Then ProductUnitPrice*(1-0.15)
+When SupplierID = 3 Then ProductUnitPrice*(1-0.18)
+When SupplierID = 4 Then ProductUnitPrice*(1-0.25)
+Else ProductUnitPrice*(1-0.1)
+End
+AS ProductPrice
+FROM Products
+
+158.
+SELECT SalesReps.LastName, IIf(Sum([unitprice]*[quantity])>5000,'Bonus','No Bonus') AS Bonus
+FROM
+(SalesReps INNER JOIN Orders ON SalesReps.SalesRepID = Orders.SalesRepID)
+INNER JOIN ProductsOrders ON Orders.OrderID = ProductsOrders.OrderID
+WHERE (((Orders.OrderDate) Between '2014/1/1' AND '2014/12/31'))
+GROUP BY SalesReps.LastName
+
+
+
+159.
+SELECT OrderID, Sum(([UnitPrice]*[Quantity])*[Discount]) AS OrderDiscount
+FROM ProductsOrders
+GROUP BY OrderID
+
+160.
+SELECT Avg([UnitPrice]*[Quantity]*[Discount]) AS AverageOrderDiscount
+FROM ProductsOrders
+
+SELECT Avg([UnitPrice]*[Quantity]) AS AverageOrderAmount
+FROM ProductsOrders
+
+SELECT cast(avg([UnitPrice]*[Quantity]*[Discount]) AS int) AS AverageOrderDiscount
+FROM ProductsOrders
+
+SELECT convert(int, avg([UnitPrice]*[Quantity]*[Discount])) AS AverageOrderDiscount
+FROM ProductsOrders
+
+161.
+SELECT OrderID, SUM((unitprice*Quantity)*(1-Discount)) AS OrderTotal
+INTO ArchivedOrders
+FROM ProductsOrders
+GROUP BY OrderID
+
+
+Chapter 15 Case2 -
+
+Q1.
+Select ProductName, ProductUnitPrice, UnitsInStock, ReorderLevel, (UnitsInStock - ReorderLevel) as UnitStatus
+From Products
+Order by ProductName ASC
+
+Q2.
+Select ProductName, UnitsInStock, UnitsOnOrder, ReorderLevel, (ReorderLevel - ([UnitsInStock]+ [UnitsOnOrder])) As UnitsToOrder
+From Products
+Order by ProductName ASC
+
+Q3.
+Select OrderID, sum(([UnitPrice]*[Quantity])) - sum(([UnitPrice]*[Quantity]*[Discount])) AS OrderTotal
+From ProductsOrders
+Group by OrderID
+
+Q4.
+Select OrderID, ProductID, UnitPrice, Discount,
+IIF(Discount>.15,.15,[Discount])
+AS AdjustedDiscount
+From ProductsOrders
+
+Q5.
+SELECT productname,
+CASE
+When SupplierID = 1 Then ProductUnitPrice*(1-0.25)
+When SupplierID = 2 Then ProductUnitPrice*(1-0.25)
+When SupplierID = 3 Then ProductUnitPrice*(1-0.38)
+When SupplierID = 4 Then ProductUnitPrice*(1-0.35)
+Else ProductUnitPrice*(1-0.8)
+End
+AS ProductPrice
+FROM Products
+
+Chapter 16
+
+164.
+SELECT (address+city+state+zip) AS FullAddress FROM Customers
+
+165.
+SELECT (address +' '+ city +' '+ state +' '+ zip) AS FullAddress
+FROM Customers
+
+166.
+SELECT 'Dear' + ' '+ (lastname + ' ' + firstname) +'.' + ' '+ 'It is our pleasure to announce that we reviewed your resume, and we have set up an interview time for you. Can you please verify that your address is' + ' ' + (address +' '+ City +' '+ State +' '+ Zip) + ' ' + 'to send you corporate policy details and directions?' AS CustomerLetter
+FROM Customers
+
+
+167.
+SELECT 'Dear' + ' '+ (lastname + ' ' + left(firstname, 1)) +'.' + ' '+ 'Please complete the enclosed forms so that we can ship your order to your country.' AS CustomerLetter
+FROM Customers
+
+168.
+SELECT 'Dear' + ' '+ upper(left(lastname,1))+ substring (lastname, 2, 50) + ' ' + firstname +'.' + ' ' + 'Please complete the enclosed forms so that we can ship your order to your country.' AS CustomerLetter
+FROM Customers
+
+169.
+SELECT OrderDate + ' with ' +ShippingCost + ' shipping cost'
+FROM Orders
+
+SELECT concat(orderdate, ' with ', shippingcost, ' shipping cost') as LetterToTheCustomer
+FROM Orders
+
+170.
+SELECT IIf(([State]='NY'),[Companyname]+' '+[ContactTitle]+' '+[Contactname], [ContactTitle]+' '+[Contactname]) AS MailTo
+FROM Suppliers
+
+171. *
+SELECT
+CASE
+When City = 'Boston'
+discount in' +' '+ [city]
+When City = 'Dallas'
+discount in' +' '+ [city]
+When City = 'New York' Then 'Dear' +' '+ [contactname]+',' +' '+ 'for our current sale we offer a 30% discount in' +' '+ [city]
+End
+AS SupplierLetter
+FROM Suppliers
+
+
+Chapter 16 Case2 -
+
+Q1.
+select (title+''+firstname+''+lastname+''+address+''+city+''+state+''+zip)
+as MailingLabel
+from salesreps
+order by lastname asc
+
+Q2.
+select 'Dear'+' '+(contactname)+','+' '+'due to the recent downturn in the market we would like to ask for a 5% discount for the products we buy from you. Please let us know within the week if this is a possibility.'
+as SupplierLetter
+from suppliers
+order by contactname asc
+
+Q3.
+select iif(([dateofhire]<'2000-12-31'),'Dear'+' '+(firstname)+''+','+' '+'you are now working with us for more than ten years and the company highly appreciates your work and loyalty.
+You are invited to our family dinner this Friday night at 6:30 PM.',null)
+as EmployeeLetter
+from salesreps
+order by lastname asc
+
+
+Q4.
+select
+case
+when state='NY' then 'Dear'+' '+[firstname]+''+','+' '+
+'Our major competitor cut prices by 15%. Cut our own prices by up to 20% but not more.'
+when state='MA' then 'Dear'+' '+[firstname]+''+','+' '+
+'Start introducing our new product immediately before any of our competitors enters the market with their own updated products.'
+when state='TX' then 'Dear'+' '+[firstname]+''+','+' '+
+'We were able to get significant discounts from our suppliers and as such try to increase markey share by reducing our current prices by 20% for the next two months.'
+end
+as SalesRepLetter
+from salesreps
+order by lastname asc
+
+Q5.
+select
+case
+when state='NY' then 'Dear'+ ' '+[firstname]+''+','+' '+[lastname]+''+'.'+' '+
+'For the next 30 days only, take the opportunity to obtain our product at the generous discount rate of 15%.'
+when state='TX' then 'Dear'+ ' '+[firstname]+''+','+' '+[lastname]+''+'.'+' '+
+'For the next 30 days only, take the opportunity to obtain our product at the generous discount rate of 20%.'
+when state='FL' then 'Dear'+ ' '+[firstname]+''+','+' '+[lastname]+''+'.'+' '+
+'For the next 30 days only, take the opportunity to obtain our product at the generous discount rate of 25%.'
+when state='CA' then 'Dear'+ ' '+[firstname]+''+','+' '+[lastname]+''+'.'+' '+
+'For the next 30 days only, take the opportunity to obtain our product at the generous discount rate of 20%.'
+end
+as CustomerDiscountLetter
+from Customers
+order by lastname asc
+
+Chapter 17
+
+174.
+SELECT LastName, SUM(quantity) AS TotalUnits
+FROM tbls_customersgr
+GROUP BY LastName
+
+175.
+SELECT LastName, SUM(unitprice*quantity) AS OrderTotal
+FROM tbls_customersgr
+GROUP BY LastName
+
+176.
+SELECT lastname, SUM(unitprice*quantity) AS OrderTotal, AVG(unitprice*quantity) AS AvgOrder
+FROM tbls_customersgr
+GROUP BY lastname
+
+177.
+SELECT LastName, SUM(unitprice*quantity) AS OrderTotal FROM tbls_customersgr
+WHERE orderid <> 509
+GROUP BY LastName
+
+
+178.
+SELECT LastName, SUM(unitprice*quantity) AS OrderTotal
+FROM tbls_customersgr
+GROUP BY LastName
+HAVING SUM(unitprice*quantity)>100
+
+
+179.
+SELECT LastName, SUM(unitprice*quantity) AS OrderTotal
+FROM tbls_customersgr
+WHERE productname <> 'Chocolate Chip Brownie'
+GROUP BY LastName
+HAVING SUM(unitprice*quantity)>100
+
+180.
+SELECT LastName, SUM(unitprice*quantity) AS OrderTotal
+FROM tbls_customersgr
+WHERE orderid <> 509
+GROUP BY LastName
+HAVING SUM(unitprice*quantity)>100
+ORDER BY Lastname DESC
+
+181.
+SELECT OrderID, Avg(unitprice*quantity) AS AverageOrderAmount FROM tbls_customersgr
+GROUP BY OrderID
+
+182.
+SELECT lastname, OrderID, SUM([unitprice]*[quantity]) AS OrderTotal
+FROM tbls_customersgr
+GROUP BY lastname, OrderID
+
+Chapter 17 Case2 -
+
+Q1.
+select productid, sum(quantity) as TotalProductUnitsSold
+from productsorders
+group by productid
+order by TotalProductUnitsSold desc
+
+Q2.
+select productid, sum([unitprice]*[quantity]) as TotalOrderAmount
+from productsorders
+group by productid
+order by TotalOrderAmount desc
+
+Q3.
+select shipperid, min(shippingcost) as MinShippingCost, avg(shippingcost) as AvgShippingCost,
+max(shippingcost) as MaxShippingCost
+from orders
+group by shipperid
+
+Q4.
+select productid, sum([quantity]*[unitprice]) as TotalOrderAmount
+from productsorders
+where productid not in (1, 14, 15, 28)
+group by productid
+having sum(unitprice*quantity)>2000
+
+Q5.
+select orderid, productid, sum(quantity*unitprice) as TotalOrderAmount
+from productsorders
+group by orderid, productid
+
+
+Chapter 18
+
+185.
+SELECT count(orderid) as NumberofOrders
+FROM tbls_customersag
+
+186.
+SELECT count(lastname) as NumberofCustomers
+FROM tbls_customersag
+
+SELECT count(*) as NumberofCustomers FROM tbls_customersag
+
+SELECT count(distinct lastname) As CountUniqueCustomers FROM tbls_customersag
+
+187.
+SELECT Count ( Distinct OrderID ) as NumberofOrders FROM tbls_customersag
+
+188.
+SELECT lastname, count(orderid) as NumberofOrders
+FROM tbls_customersag
+GROUP BY lastname
+
+189.
+SELECT lastname, count(orderid) as NumberofOrders, AVG(unitprice*quantity) AS AvgOrderAmount
+FROM tbls_customersag
+GROUP BY lastname
+
+190.
+SELECT lastname, count(orderid) as NumberofOrders, AVG(unitprice*quantity)
+AS AvgOrderAmount
+FROM tbls_customersag
+WHERE lastname NOT IN ('Johnson', 'Madsen')
+GROUP BY lastname
+
+Chapter 18 Case2
+Q1.
+select supplierid, count(productid)
+from products
+group by supplierid
+
+Q2.
+select min(quantity) as MinSold, avg(quantity) as AverageSold, max(quantity) as MaxSold, sum(quantity) as TotalUnitsSold
+from productsorders
+
+Q3.
+select productid, min(quantity) as MinSold, avg(quantity) as AverageSold, max(quantity) as MaxSold, sum(quantity) as TotalUnitsSold
+from productsorders
+group by productid
+order by productid asc
+
+Q4.
+select productid, min(quantity) as MinSold, avg(quantity) as AverageSold, max(quantity) as MaxSold, sum(quantity) as TotalUnitsSold
+from productsorders
+where productid not between 35 and 70
+group by productid
+order by productid asc
+
+Q5.
+select productid, min(quantity) as MinSold, avg(quantity) as AverageSold, max(quantity) as MaxSold, sum(quantity) as TotalUnitsSold
+from productsorders
+where productid not between 35 and 70
+group by productid
+having sum(quantity)>=100
+order by productid asc
+
+
+Chapter 19
+
+198.
+SELECT *
+FROM
+(SELECT CustomerState, OrderYear, OrderTotal FROM View_CrosstabBase)
+AS Crosstab
+PIVOT (sum(OrderTotal)
+FOR OrderYear IN ([2012], [2013], [2014]))
+AS CrossTabTable
+
+199.
+SELECT *
+FROM
+(SELECT CustomerCity, OrderYear, OrderTotal FROM View_CrosstabBase) AS Crosstab
+PIVOT (sum(OrderTotal)
+FOR OrderYear IN ([2012], [2013], [2014]) )
+AS CrossTabTable
+
+200.
+SELECT *
+FROM
+(SELECT CustomerLastName, OrderYear, OrderTotal FROM View_CrosstabBase) AS Crosstab
+PIVOT (sum(OrderTotal)
+FOR OrderYear IN ([2012], [2013], [2014]))
+AS CrossTabTable
+
+201.
+SELECT *
+FROM
+(SELECT CustomerLastName + ' ' + CustomerFirstName AS CustomerName, OrderYear, OrderTotal FROM View_CrosstabBase)
+AS Crosstab PIVOT (sum(OrderTotal)
+FOR OrderYear IN ([2012], [2013], [2014]))
+AS CrossTabTable
+
+202.
+SELECT *
+FROM
+(SELECT CustomerState, OrderYear, OrderTotal FROM View_CrosstabBase WHERE CustomerState IN ('CA', 'NY', 'FL'))
+AS Crosstab
+PIVOT(sum(OrderTotal)
+FOR OrderYear IN ([2012], [2013], [2014]))
+AS CrossTabTable
+
+203.
+SELECT *
+FROM
+(SELECT CustomerState, OrderYear, OrderTotal FROM View_CrosstabBase) AS Crosstab
+PIVOT (sum(OrderTotal)
+FOR OrderYear IN ([2013], [2014]))
+AS CrossTabTable
+
+204.
+SELECT *
+FROM
+(SELECT CustomerState, OrderYear, OrderTotal FROM View_CrosstabBase WHERE CustomerCity NOT IN ('Albany'))
+AS Crosstab
+PIVOT (sum(OrderTotal)
+FOR OrderYear IN ([2012], [2013], [2014]))
+AS CrossTabTable
+
+
+205.
+SELECT *
+FROM
+(SELECT CustomerState, OrderYear, iif(ordertotal>=10000, ordertotal*0.9, OrderTotal*0.95) AS Ordertotal
+FROM View_CrosstabBase)
+AS Crosstab
+PIVOT (Sum(Ordertotal)
+FOR OrderYear IN ([2012], [2013], [2014]))
+AS CrossTabTable
+
+206.
+SELECT *
+FROM
+(SELECT
+CASE
+WHEN unitprice >= 25 THEN 'Expensive Products Total Sales' WHEN unitprice < 25 THEN 'Inexpensive Product Total Sales' END
+AS UnitPrice,
+OrderYear, OrderTotal FROM View_CrosstabBase) AS Crosstab
+PIVOT (sum(OrderTotal)
+FOR OrderYear IN ([2012], [2013], [2014]))
+AS CrossTabTable
+
+Chapter 19 Case2 -
+
+Q1.
+SELECT*
+FROM
+(SELECT ProductName, OrderYear, OrderTotal FROM View_CrosstabBase)
+AS Crosstab
+PIVOT(sum(OrderTotal)
+FOR OrderYear IN ([2012],[2013],[2014]))
+AS CrossTabTable
+
+Q2.
+SELECT*
+FROM
+(SELECT ProductName, OrderYear, OrderTotal FROM View_CrosstabBase
+WHERE ProductName NOT IN ('Chili salsa', 'Coffee biscuits','Crispy Pears'))
+AS Crosstab
+PIVOT(sum(OrderTotal)
+FOR OrderYear IN ([2012],[2013],[2014]))
+AS CrossTabTable
+
+Q3.
+SELECT*
+FROM
+(SELECT ProductName, OrderYear, iif(OrderTotal>=30, ordertotal*0.9, ordertotal*0.95)
+AS OrderTotal
+FROM View_CrosstabBase
+WHERE ProductName NOT IN ('Chili salsa', 'Coffee biscuits','Crispy Pears'))
+AS Crosstab
+PIVOT(sum(OrderTotal)
+FOR OrderYear IN ([2012],[2013],[2014]))
+AS CrossTabTable
+
+Q4.
+SELECT*
+FROM
+(SELECT ProductName, OrderYear, iif(OrderTotal>=30, ordertotal*0.9, ordertotal*0.95)
+AS OrderTotal
+FROM View_CrosstabBase
+WHERE ProductName NOT IN ('Chili salsa', 'Coffee biscuits','Crispy Pears'))
+AS Crosstab
+PIVOT(sum(OrderTotal)
+FOR OrderYear IN ([2013],[2014]))
+AS CrossTabTable
+
+
+Q5.
+SELECT*
+FROM
+(SELECT
+CASE
+WHEN unitprice<=10 THEN 'Price 1-10'
+WHEN unitprice<=20 AND unitprice>10 THEN 'Price 11-20'
+WHEN unitprice<=30 AND unitprice>20 THEN 'Price 21-30'
+WHEN unitprice>31 THEN 'Price>31'
+END
+AS UnitPrice,
+OrderYear,OrderTotal FROM View_CrosstabBase)
+AS Crosstab
+PIVOT(sum(OrderTotal)
+FOR OrderYear IN ([2012],[2013],[2014]))
+AS CrossTabTable
+
+
+Chapter 20
+
+209.
+SELECT ProductID, ProductName, QuantityPerUnit,
+iif([productid]=14,[productunitprice]*0.5,[productunitprice]) AS ProductPrice
+FROM Products
+
+SELECT ProductID, ProductName, QuantityPerUnit, case
+WHEN productid = 14 THEN productunitprice*0.5
+WHEN productid <>14 THEN productunitprice
+END
+AS ProductPrice
+FROM Products
+
+
+210.
+SELECT State, lastname, firstname, OrderTotal, IIf([state]= 'NY' Or [state]= 'CA' Or [state]= 'TX',0.20,0.10)
+AS Discount
+FROM View_Conditions
+
+SELECT State, lastname, firstname, OrderTotal,
+CASE
+WHEN state= 'NY' Or state= 'CA' Or state = 'TX' THEN 0.20 ELSE 0.10
+END
+AS Discount
+FROM View_Conditions
+
+211.
+SELECT lastname, firstname, OrderTotal,
+iif(ordertotal<200,0,
+iif(ordertotal>=200 And ordertotal<300, 0.05,
+iif(ordertotal>=300 And ordertotal<500, 0.10, 0.25)))
+AS Discount
+FROM View_Conditions
+
+SELECT lastname, firstname, ordertotal, CASE
+WHEN ordertotal < 200 THEN 0
+WHEN ordertotal>= 200 and ordertotal < 300 THEN 0.05
+WHEN ordertotal> 300 and ordertotal <= 500  THEN 0.10
+WHEN ordertotal> 500 THEN 0.25
+END
+AS Discount
+FROM View_Conditions
+
+212.
+SELECT state, lastname, firstname, ordertotal, CASE
+WHEN state = 'NY' THEN 0.20
+WHEN state = 'AZ' THEN 0.15
+WHEN state = 'CO' THEN 0.12
+WHEN state = 'FL' THEN 0.18
+WHEN state = 'MA' THEN 0.18
+ELSE 0.10
+END
+AS Discount
+FROM View_Conditions
+
+213.
+SELECT OrderID, lastname, firstname, State,
+CASE
+WHEN ordertotal>= 200 and ordertotal < 300 THEN
+WHEN ordertotal> 300 and ordertotal <= 500 THEN
+WHEN ordertotal> 500 THEN
+ELSE ordertotal
+END
+AS DiscountedOrders
+FROM View_conditions
+WHERE state in ('AZ', 'CO', 'TX', 'FL') ORDER BY ordertotal DESC
+ordertotal*(1-0.1) ordertotal*(1-0.15) ordertotal*(1-0.2)
+
+
+214.
+SELECT ProductName, UnitsInStock, UnitsOnOrder,
+CASE
+WHEN ProductUnitPrice*QuantityPerUnit < 500 THEN 'Economical'
+WHEN ProductUnitPrice*QuantityPerUnit >= 500 AND ProductUnitPrice*QuantityPerUnit<1000
+THEN 'Moderate'
+WHEN ProductUnitPrice*QuantityPerUnit >= 1000 THEN 'Expensive'
+END
+as PricingCategory
+FROM Products
+ORDER BY ProductUnitPrice*QuantityPerUnit DESC
+
+
+215.
+SELECT LastName, Year(OrderDate) AS OrderYear,
+SUM
+(
+CASE
+WHEN (UnitPrice*quantity) < 5000 THEN (UnitPrice*quantity)*(0.1) + 500
+WHEN (UnitPrice*quantity) >= 5000 AND (UnitPrice*quantity) <10000 THEN (UnitPrice*quantity)*(0.15) + 1000
+WHEN (UnitPrice*quantity) >= 10000 AND (UnitPrice*quantity) <15000 THEN (UnitPrice*quantity)*(0.2) + 3000
+WHEN (UnitPrice*quantity) >= 15000 THEN (UnitPrice*quantity)*(0.25) + 5000)
+END
+
+AS CommissionAndBonus
+FROM SalesReps INNER JOIN (Orders INNER JOIN ProductsOrders ON Orders.OrderID = ProductsOrders.OrderID) ON SalesReps.SalesRepID = Orders.SalesRepID
+GROUP BY LastName, Year(OrderDate) HAVING Year(OrderDate)=2014
+ORDER BY Sum(UnitPrice*quantity) DESC
+
+216.
+UPDATE tbls_Products_Upd SET ProductUnitPrice = CASE
+WHEN supplierid=1 THEN ProductUnitPrice*(1.1)
+WHEN supplierid=2 THEN ProductUnitPrice*(1.08)
+WHEN supplierid=3 THEN ProductUnitPrice*(1.07)
+WHEN supplierid=4 THEN ProductUnitPrice*(1.05
+WHEN supplierid=5 THEN ProductUnitPrice*(1.03)
+WHEN supplierid=6 THEN ProductUnitPrice*(1.02)
+WHEN supplierid=7 THEN ProductUnitPrice*(1.03)
+WHEN supplierid=8 THEN ProductUnitPrice*(1.07)
+WHEN supplierid=9 THEN ProductUnitPrice*(1.11)
+WHEN supplierid=10 THEN ProductUnitPrice*(1.08)
+END
+
+217.
+SELECT *
+FROM
+(SELECT
+CASE
+WHEN CustomerCity IN ('New York', 'Los Angeles') THEN "BigCities"
+WHEN CustomerCity NOT IN ('New York', 'Los Angeles') THEN "SmallCities"
+END
+AS UnitPrice,
+OrderYear, OrderTotal FROM View_CrosstabBase)
+AS Crosstab
+PIVOT
+(
+sum(OrderTotal)
+FOR OrderYear IN ([2012], [2013], [2014])
+)
+AS CrossTabTable
+
+Chapter 20 Case2 -
+
+Q1.
+SELECT ProductID, ProductName, QuantityPerUnit,
+iif(productid IN (5,6,7),[productunitprice]*0.80,[productunitprice]) AS ProductPrice
+FROM Products
+
+Q2.
+SELECT ProductID, ProductName, QuantityPerUnit,
+case
+WHEN ProductID IN (5,6,7) THEN productunitprice*0.80
+WHEN ProductID NOT IN (5,6,7) THEN productunitprice
+END
+AS ProductPrice
+From Products
+
+Q3.
+SELECT ProductName, UnitsInStock,
+iif(unitsinstock<20,productunitprice*0.80,
+iif(unitsinstock>=20 AND unitsinstock<30,productunitprice*0.75,
+iif(unitsinstock>=30 AND unitsinstock<40,productunitprice*0.70,productunitprice*0.65)))
+AS NewProductPrice
+FROM Products
+
+Q4.
+SELECT ProductName, QuantityPerUnit,UnitsInStock, UnitsOnOrder,
+iif(unitsinstock + unitsonorder<20,productunitprice*0.80,
+iif(unitsinstock + unitsonorder>=20 AND unitsinstock + unitsonorder<30,productunitprice*0.75,
+iif(unitsinstock + unitsonorder>=30 AND unitsinstock + unitsonorder<40,productunitprice*0.70,productunitprice*0.65)))
+AS NewProductPrice
+FROM Products
+
+Q5.
+SELECT ProductName, QuantityPerUnit,UnitsInStock,UnitsOnOrder,
+CASE
+WHEN unitsinstock<20 THEN 0.20
+WHEN unitsinstock>=20 AND unitsinstock<30 THEN 0.25
+WHEN unitsinstock>=30 AND unitsinstock<40 THEN 0.30
+WHEN unitsinstock>=30 AND unitsinstock<=40 THEN 0.35
+END
+AS DiscountExtended
+FROM Products
+
+
+Chapter 21
+
+
+220.
+SELECT lastname, firstname, city, state, zip FROM tbls_customers_un1
+UNION
+SELECT lastname, firstname, city, state, zip FROM tbls_customers_un2
+
+
+221.
+SELECT lastname, firstname, city, state, zip
+FROM customers
+UNION
+SELECT companyname, contactname, city, state, zip
+FROM suppliers
+
+222.
+SELECT lastname, firstname, city, state, zip FROM tbls_customers_un1
+UNION
+SELECT lastname, firstname, city, state, zip FROM tbls_customers_un2
+UNION
+SELECT companyname, contactname, city, state, zip
+FROM suppliers
+
+
+223.
+SELECT lastname, firstname, city, state, zip FROM tbls_customers_un1
+UNION ALL
+SELECT lastname, firstname, city, state, zip FROM tbls_customers_un2
+
+224.
+SELECT lastname, firstname, city, state, zip
+FROM tbls_customers_un1
+UNION
+SELECT lastname, firstname, city, state, zip
+FROM tbls_customers_un2
+ORDER BY lastname
+
+225.
+SELECT lastname, firstname, city, state, zip
+FROM tbls_customers_un1
+WHERE state = 'NY'
+UNION
+SELECT lastname, firstname, city, state, zip
+FROM tbls_customers_un2
+WHERE state ='TX'
+ORDER BY state
+
+226.
+SELECT lastname, firstname, city, state, zip, CustomerID FROM tbls_customers_un1
+UNION
+SELECT
+'zTotal customer count', '', '', '', '', Count(CustomerID)
+FROM tbls_customers_un1
+ORDER BY lastname ASC
+
+227.
+SELECT lastname, firstname, city, state, zip INTO Temp_UnionTable1
+FROM tbls_customers_un1
+UNION
+SELECT lastname, firstname, city, state, zip
+FROM tbls_customers_un2
+
+228.
+CREATE TABLE TempTable_Union_InsertInto
+(
+CustomerID int PRIMARY KEY identity (1,1),
+lastname varchar (50),
+firstname varchar (50),
+city varchar (50),
+state varchar (50),
+zip varchar (10)
+)
+
+INSERT INTO TempTable_Union_InsertInto (lastname, firstname, city, state, zip) SELECT lastname, firstname, city, state, zip
+FROM tbls_customers_un1
+WHERE state = 'NY'
+UNION
+SELECT lastname, firstname, city, state, zip FROM tbls_customers_un2
+WHERE state = 'NY'
+
+
+229.
+SELECT 'Main' As DisCenter, state, count(CustomerID) AS Customers
+FROM customers
+GROUP BY state
+UNION
+SELECT 'Regional' As Center, state, Count(CustomerID) AS Customers FROM tbls_customers_un2
+GROUP BY state
+ORDER BY STATE
+
+230.
+SELECT 'Main' As DisCenter, state, count(CustomerID) AS Customers
+FROM tbls_customers_un1
+WHERE State in (SELECT state from tbls_customers_un2)
+GROUP BY state
+UNION
+SELECT 'Regional' As Center, state, Count(CustomerID) AS Customers
+FROM tbls_customers_un2
+GROUP BY state
+ORDER BY STATE
+
+231.
+SELECT lastname, firstname, city, state, zip, 'customer' AS TypeOfContact
+FROM customers
+UNION
+SELECT companyname, contactname, city, state, zip, 'supplier'
+FROM suppliers
+
+Q1.
+SELECT LastName,FirstName,City,State,Zip
+FROM Customers
+UNION
+SELECT LastName,FirstName,City,State,Zip
+FROM SalesReps
+UNION
+SELECT CompanyName,ContactName,City,State,Zip
+FROM Suppliers
+
+Q2.
+SELECT LastName,FirstName,City,State,Zip
+FROM Customers
+UNION ALL
+SELECT LastName,FirstName,City,State,Zip
+FROM SalesReps
+UNION ALL
+SELECT CompanyName,ContactName,City,State,Zip
+FROM Suppliers
+
+Q3.
+SELECT 'Local' AS Location,SKU,count(QuantityPerUnit) AS NumberofProducts
+FROM tblS_Products_Local
+GROUP BY SKU
+UNION
+SELECT 'Regional' AS Center,SKU,count(QuantityPerUnit) AS NumberofProducts
+FROM tbls_Products_Regional
+GROUP BY SKU
+
+Q4.
+SELECT SKU,count(QuantityPerUnit) AS NumberofProducts
+FROM tblS_Products_Local
+GROUP BY SKU
+UNION
+SELECT SKU,count(QuantityPerUnit) AS NumberofProducts
+FROM tbls_Products_Regional
+GROUP BY SKU
+
+Q5.
+SELECT SKU,count(QuantityPerUnit) AS NumberofProducts
+FROM tblS_Products_Local
+WHERE ProductUnitPrice BETWEEN 20 AND 35
+GROUP BY SKU
+UNION
+SELECT SKU,count(QuantityPerUnit) AS NumberofProducts
+FROM tbls_Products_Regional
+WHERE QuantityPerUnit > 1
+GROUP BY SKU
+
+Chapter 22
+
+
+234.
+SELECT OrderID, Count(*) AS NumberofDuplicates
+FROM tbls_Orders
+GROUP BY OrderID
+HAVING count(*)>1
+
+235.
+SELECT OrderID, CustomerID, Count(*) AS NumberofDuplicates FROM tbls_Orders
+GROUP BY OrderID, CustomerID
+HAVING count(*)>1
+
+236.
+SELECT Count(*) AS NumberofDuplicates, OrderID, CustomerID, SalesRepID, ShipperID, OrderDate, RequiredDate, ShippedDate, ShippingCost
+FROM tbls_Orders
+GROUP BY OrderID, CustomerID, SalesRepID, ShipperID, OrderDate, RequiredDate, ShippedDate, ShippingCost
+HAVING count(*)>1
+
+237.
+SELECT *
+FROM tbls_Orders WHERE OrderID IN( SELECT OrderID
+FROM tbls_Orders
+GROUP BY OrderID
+HAVING count(*)>1)
+ORDER BY OrderID
+
+
+239.
+SELECT *
+FROM tbls_Orders
+WHERE CustomerID
+NOT IN (SELECT CustomerID from Customers)
+
+240.
+SELECT *
+FROM tbls_Orders
+LEFT JOIN Customers ON tbls_Orders.CustomerID = Customers.CustomerID
+WHERE Customers.CustomerID Is Null
+
+241.
+SELECT *
+INTO tbls_Orders1
+FROM tbls_Orders
+
+DELETE
+FROM tbls_Orders1
+WHERE CustomerID
+NOT IN (SELECT CustomerID FROM Customers)
+
+
+242.
+SELECT *
+INTO tbls_Orders2 FROM tbls_Orders
+
+DELETE tbls_Orders2
+FROM tbls_Orders2
+LEFT JOIN Customers ON tbls_Orders2.CustomerID = Customers.CustomerID
+WHERE (Customers.CustomerID Is Null)
+
+243.
+SELECT *
+FROM Customers
+WHERE CustomerID
+NOT IN (SELECT CustomerID from tbls_Orders)
+
+244.
+SELECT *
+FROM Customers
+WHERE CustomerID NOT IN
+(SELECT CustomerID
+FROM tbls_Orders
+WHERE OrderDate BETWEEN '2013/1/1' AND '2013/12/31')
+
+245.
+SELECT *
+FROM Customers
+WHERE CustomerID
+IN (SELECT CustomerID from tbls_Orders)
+
+246.
+SELECT *
+FROM Customers
+WHERE CustomerID
+IN (SELECT CustomerID from tbls_Orders
+WHERE DatePart(q , OrderDate) = 4 AND year(OrderDate) = 2013)
+
+Chapter 22 Case2 -
+
+Q1.
+SELECT *
+FROM ShippingCompanies
+WHERE ShipperID
+NOT IN (SELECT ShipperID FROM tble_orders)
+
+Q2.
+SELECT *
+FROM ShippingCompanies
+WHERE ShipperID
+NOT IN (SELECT ShipperID FROM tble_orders WHERE ShippedDate BETWEEN '7-1-2014' and '12-31-2015')
+
+Q3.
+SELECT *
+FROM tble_Orders
+WHERE ShipperID
+NOT IN (SELECT ShipperID FROM ShippingCompanies)
+
+Q4.
+SELECT *
+FROM ShippingCompanies
+WHERE ShipperID
+IN (SELECT ShipperID FROM tble_Orders)
+
+Q5.
+SELECT *
+FROM ShippingCompanies
+WHERE ShipperID
+IN (SELECT ShipperID FROM tble_Orders WHERE ShippedDate between '12-16-2014' and '12-31-2014')
+
+Chapter 23 -
+
+249.
+Select productID,productname,productunitprice, SKU
+from tbls_productsN
+where SKU is NULL
+
+250.
+SELECT ProductID, productname, productunitprice, ISNULL(SKU,'Nothing') AS SKUCheck
+FROM tbls_ProductsN
+ORDER BY SKU
+
+251.
+SELECT productID, productname, (productunitprice*quantityperunit) As Subtotal
+FROM tbls_ProductsN
+ORDER BY (productunitprice*quantityperunit) DESC
+
+252.
+SELECT SUM(productunitprice*quantityperunit) As Total
+FROM tbls_ProductsN
+
+253.
+SELECT Count(SKU) As CountSKUs
+FROM tbls_ProductsN
+
+SELECT Count(ProductID) As CountSKUs
+FROM tbls_ProductsN
+
+SELECT Count(*) As CountRecords
+FROM tbls_ProductsN
+
+254.
+SELECT productID, productname, productunitprice, SKU
+FROM tbls_ProductsN
+WHERE SKU IS NOT NULL
+
+255.
+SELECT*
+INTO temp_tbls_ProductsN
+FROM tbls_ProductsN
+
+UPDATE temp_tbls_ProductsN
+SET SKU = 'NA'
+WHERE SKU IS NULL
+
+Chapter 23 Case2 -
+
+Q1.
+SELECT ProductID,OrderID,UnitPrice,Quantity
+FROM tble_ProductsOrdersN
+WHERE Quantity IS Null
+
+Q2.
+SELECT Count(*) AS NumberofNulls
+FROM tble_ProductsOrdersN
+WHERE  UnitPrice is null
+
+Q3.
+SELECT ProductID,Count(Quantity) AS NumberOfOrders,AVG(Quantity) AS AverageOrder,(UnitPrice*Quantity)AS TotalAmount
+FROM tble_ProductsOrdersN
+GROUP BY ProductID
+ORDER BY (UnitPrice*Quantity) DESC
+
+Q4.
+SELECT OrderID, ProductID, UnitPrice, Quantity,Discount
+FROM tble_ProductsOrdersN
+WHERE UnitPrice IS NULL
+OR Quantity IS NULL
+
+Q5.
+SELECT ProductID,Count(Quantity) AS NumberOfOrders,AVG(Quantity) AS AverageOrder,(UnitPrice*Quantity)AS TotalAmount
+FROM tble_ProductsOrdersN
+GROUP BY ProductID
+ORDER BY (UnitPrice*Quantity) DESC
+
+SELECT OrderID, ProductID, UnitPrice, Quantity,Discount
+FROM tble_ProductsOrdersN
+WHERE UnitPrice IS NULL
+OR Quantity IS NULL
+
+Chapter 24 -
+
+258.
+SELECT cast(245.234 AS TinyInt) AS ConvertedNumber
+
+Select convert (TinyInt, 245.234 ) AS ConvertedNumber
+
+SELECT ProductName, QuantityPerUnit, convert(TinyInt, ProductUnitPrice) AS ProductPrice,UnitsInStock
+FROM products
+
+
+259.
+SELECT cast('November 21 2014' AS date ) AS ConvertedDate
+
+SELECT convert(date, 'November 21 2014' ) AS ConvertedDate
+
+SELECT year(cast('November 21 2014' AS date )) AS ConvertedDate
+
+260.
+SELECT cast(12456 AS char(5) ) AS ConvertedText
+
+SELECT convert(char(5), 12456 ) AS ConvertedText
+
+Chapter 24 Case2 -
+
+Q1.
+SELECT ProductName,QuantityPerUnit,cast(cast(ProductUnitPrice AS float) AS smallint) AS ProductUnitPrice,UnitsInStock,UnitsOnOrder
+FROM tble_Products_Conversion
+
+Q2.
+SELECT ProductName,QuantityPerUnit,convert(int,convert(float,ProductUnitPrice)) AS ProductUnitPrice,UnitsInStock,UnitsOnOrder
+FROM tble_Products_Conversion
+
+Q3.
+SELECT ProductName, ProductUnitPrice,UnitsInStock,UnitsOnOrder, cast(CatalogLastUpdated AS date) AS CatalogLastUpdated
+FROM tble_Products_Conversion
+
+Q4.
+SELECT ProductName, ProductUnitPrice,UnitsInStock,UnitsOnOrder, year(cast(CatalogLastUpdated AS date)) AS CatalogLastUpdated
+FROM tble_Products_Conversion
+
+Q5.
+SELECT ProductName, SUM(cast(cast(UnitsInStock AS float) AS smallint)+cast(cast(UnitsOnOrder AS float) AS smallint)) AS TotalInventoryUnits
+FROM tble_Products_Conversion
+GROUP BY ProductName
+
+
+Chapter 25 -
+
+264.
+SELECT Upper(lastname) AS LastName, Upper(firstname) AS FirstName, city, state, zip
+FROM customers
+
+265.
+SELECT upper(left(lastname,1))+ substring (lastname, 2, 50) AS LastName, city, state, zip
+FROM customers
+
+SELECT upper(left(lastname,1))+ substring (lastname, 2, len(lastname)) AS LastName, city, state, zip
+FROM customers
+
+266.
+SELECT lower(lastname) AS LastName, lower(firstname) AS FirstName, city, state, zip
+FROM customers
+
+267.
+SELECT productid, productname, left(sku,4) AS SKU4
+FROM Products
+
+268.
+SELECT productid, productname, right(sku,4) AS SKU4
+FROM Products
+
+269.
+SELECT productid, productname, len(sku) AS CountSKUChars
+FROM Products
+
+270.
+SELECT productid, productname, sku, charindex('-',sku,1) AS PartSKU
+FROM Products
+
+271.
+SELECT productid, productname, sku, charindex(' ', sku, 1) AS PartSKU
+FROM Products
+WHERE charindex (' ', sku, 1) <> 0
+
+272.
+SELECT substring (productname, 5, 5)
+FROM Products
+
+273.
+SELECT productid, productname, sku, charindex('-', sku) AS PartSKU
+FROM Products
+
+SELECT productid, productname, sku, left(sku, charindex('-', sku)) AS PartSKU
+FROM Products
+
+SELECT charindex('-', sku) AS PartSKU
+FROM Products
+
+SELECT charindex('-', sku)-1 AS PartSKU
+FROM Products
+
+274.
+SELECT productid, productname, sku, left(sku,charindex('-', sku)-1) AS PartSKU
+FROM Products
+WHERE charindex('-', sku) > 0
+
+275.
+SELECT productid, ltrim(productname) AS LeftTrimmedName, sku
+FROM Products
+
+276.
+SELECT productid, Rtrim(productname) AS RightTrimmedName, sku
+FROM Products
+
+277.
+SELECT productid,  (' ' +productname + ' ')  AS SpacedName, sku
+FROM Products
+
+278.
+SELECT productid,  (space(10)+ productname + space(10))  AS SpacedName, sku
+FROM Products
+
+279.
+SELECT productid,  productname, sku FROM Products
+WHERE left(sku, 4) = 'PDK-'
+
+SELECT productid,  productname, replace(sku, 'pdk-', 'pds-') As skuUpdated
+FROM Products
+WHERE left(sku, 4) = 'PDK-'
+
+280.
+SELECT productid,  Reverse(sku) As ReverseSKU
+FROM Products
+
+Chapter 26 Case2 -
+
+Q1.
+SELECT ProductID,substring(ProductName,0,CHARINDEX('-',ProductName,0)) AS ProductName
+FROM tble_Products_Strings
+
+Q2.
+SELECT replace(ProductName,'oz','gram') AS NewProductName,ProductUnitPrice
+FROM tble_Products_Strings
+
+Q3.
+SELECT substring(SupplierID,0,CHARINDEX('-',SupplierID,0)) AS SupplierID, ProductName
+FROM tble_Products_Strings
+
+Q4.
+SELECT substring(SupplierID,0,CHARINDEX('-',SupplierID,0)) AS SupplierRegion, SUM(UnitsInStock*ProductUnitPrice) AS TotalValueInStock
+FROM tble_Products_Strings
+GROUP BY substring(SupplierID,0,CHARINDEX('-',SupplierID,0))
+
+Q5.
+SELECT ProductName, SUM(cast(cast(UnitsInStock AS float) AS smallint)+cast(cast(UnitsOnOrder AS float) AS smallint)) AS TotalInventoryUnits
+FROM tble_Products_Conversion
+GROUP BY ProductName
+
+Chapter 26 -
+
+283.
+SELECT *
+FROM Orders
+WHERE OrderDate BETWEEN '2014/1/1' AND '2014/6/30'
+ORDER BY OrderDate ASC
+
+284.
+SELECT *
+FROM Orders
+WHERE OrderDate<= '2014/1/1' OR OrderDate >= '2014/6/30'
+ORDER BY OrderDate
+
+285.
+SELECT GetDate() as CurrentTimeAndDate
+
+286.
+SELECT customerID, max(OrderDate) As LatestOrder
+FROM Orders
+GROUP BY customerID
+
+SELECT lastname, Max(Orders.OrderDate) AS MaxOfOrderDate
+FROM Customers INNER JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+GROUP BY lastname
+
+SELECT Customers.CustomerID, Customers.LastName, Customers.FirstName, Max(Orders.OrderDate) AS LatestOrderDate
+FROM Customers INNER JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+GROUP BY Customers.CustomerID, Customers.LastName, Customers.FirstName
+
+287.
+SELECT DateDiff(d, '2014/5/15', '2014/6/30')  As NumberOfDays
+
+288.
+SELECT datepart(dw, orderdate) As BusinessDay, Count(OrderID) AS NumberOfOrders FROM Orders
+WHERE year(orderdate) = 2014 AND datepart(q, orderdate) = 2 AND datepart(dw, orderdate) IN (2,3,4,5,6)
+GROUP BY datepart(dw, orderdate)
+
+289.
+SELECT datepart(q, orderdate) As Quarter, datepart(dw, orderdate) As NonBusinessDay,
+Count(OrderID) AS NumberOfOrders
+FROM Orders
+WHERE year(orderdate) = 2014 AND datepart(dw, orderdate) IN (1,7)
+GROUP BY datepart(q, orderdate), datepart(dw, orderdate)
+
+290.
+SELECT *
+FROM Orders
+WHERE OrderDate BETWEEN '2014/6/1' AND '2014/6/30'
+ORDER BY OrderDate
+
+291.
+SELECT DatePart(d,OrderDate) AS Day, Count(OrderID) AS NumberOfOrders
+FROM Orders WHERE Year([OrderDate])=2014 AND DatePart(m,[OrderDate]) = 6
+GROUP BY DatePart(d,[OrderDate])
+ORDER BY DatePart(d,[OrderDate])
+
+292.
+SELECT DatePart(ww,[OrderDate]) AS Week, Count(OrderID) AS NumberOfOrders
+FROM Orders
+WHERE (((Year([OrderDate]))=2014))
+GROUP BY DatePart(ww,[OrderDate])
+
+293.
+SELECT DatePart(m,[OrderDate]) As month, DatePart(dw,[OrderDate]) AS Day,  Count(OrderID) AS NumberOfOrders
+FROM Orders
+WHERE year(OrderDate) = 2014  AND  datepart(q, ([OrderDate])) = 1  AND datepart(w, ([OrderDate])) = 2
+GROUP BY DatePart(m,[OrderDate]), DatePart(w,[OrderDate])
+ORDER BY DatePart(m,[OrderDate])
+
+294.
+SELECT Year([orderdate]) AS [Year], DatePart(ww,[OrderDate]) AS Week, Sum(unitprice*quantity)
+AS OrderTotal
+FROM View_Invoices
+WHERE (((DatePart(ww,[OrderDate]))=50))
+GROUP BY Year([orderdate]), DatePart(ww,[OrderDate])
+
+295.
+SELECT year(OrderDate) AS Year, sum(unitprice*quantity) AS OrderTotal
+FROM View_Invoices
+GROUP BY Year(OrderDate)
+
+SELECT datepart(yyyy, OrderDate) AS Year, SUM(unitprice*quantity) AS OrderTotal
+FROM View_Invoices
+GROUP BY datepart(yyyy, OrderDate)
+
+296.
+SELECT datePart(q,[OrderDate])  AS Quarter, sum(unitprice*quantity) AS OrderTotal
+FROM View_Invoices
+WHERE Year(orderdate) = 2014
+GROUP BY DatePart(q , [OrderDate])
+
+297.
+SELECT month(OrderDate) AS [Month], Sum(unitprice*quantity) AS OrderTotal,
+Sum(([unitprice]*[quantity])*[Discount]) AS TotalDiscount
+FROM View_Invoices
+WHERE year(orderdate) = 2014
+GROUP BY month(OrderDate)
+ORDER BY month([OrderDate])
+
+SELECT datename(m,OrderDate) AS [Month], sum(unitprice*quantity) AS OrderTotal,
+sum(([unitprice]*[quantity])*[Discount]) AS TotalDiscount
+FROM View_Invoices
+WHERE year(orderdate) = 2014
+GROUP BY datename(m,OrderDate), month([OrderDate])
+ORDER BY month([OrderDate])
+
+SELECT datepart(m, OrderDate) AS [Month], sum(unitprice*quantity) AS OrderTotal, Sum(([unitprice]*[quantity])*[Discount]) AS TotalDiscount
+FROM View_Invoices
+WHERE year(orderdate) = 2014
+GROUP BY datepart(m, OrderDate), month([OrderDate])
+ORDER BY datepart(m, OrderDate)
+
+298.
+SELECT DatePart(dw,[OrderDate]) AS Day, Count(OrderID) AS NumberOfOrders
+FROM Orders
+WHERE (((Year([OrderDate]))=2014))
+GROUP BY DatePart(dw,[OrderDate])
+
+SELECT DateName(dw,[OrderDate]) AS Day, Count(OrderID) AS NumberOfOrders
+FROM Orders
+WHERE (((Year([OrderDate]))=2014))
+GROUP BY DateName(dw,[OrderDate])
+
+299.
+SELECT DatePart(y,OrderDate) AS Day, Count(OrderID) AS NumberOfOrders
+FROM Orders
+WHERE Year([OrderDate])=2014
+GROUP BY DatePart(y,[OrderDate])
+ORDER BY DatePart(y,[OrderDate])
+
+300.
+SELECT OrderID, CustomerID, OrderDate
+FROM Orders
+WHERE OrderDate Like '%-10-22'
+
+301.
+SELECT firstname, lastname, DateAdd(yyyy, 20 , DateOfHire) AS Anniversary20yr
+
+302.
+SELECT firstname, lastname, title, datepart(d, dateofbirth) As DayOfBirth
+FROM SalesReps
+WHERE datepart(m, dateofbirth) =
+
+303.
+SELECT firstname, lastname, DateDiff(yyyy, DateOfHire, GetDate()) AS YearsEmployed
+FROM SalesReps
+
+304.
+SELECT firstname, lastname, title, DateDiff(yyyy, DateOfBirth, GetDate())  As Age
+FROM SalesReps
+
+305.
+SELECT OrderID, datediff(d, orderdate, shippeddate) AS CycleTime  FROM Orders
+WHERE year(orderdate) = 2014 AND month(orderdate) = 9
+
+306.
+SELECT OrderID, dateadd(d, 2, orderdate) AS  PolicyShipmentDate
+FROM Orders
+WHERE year(orderdate) = 2014 AND month(orderdate) = 9
+
+Chapter 26 Case2:
+
+Q1.
+SELECT DISTINCT state
+SELECT*
+FROM(Select customerstate,(UnitPrice*Quantity) AS OrderTotal,datepart(wk,OrderDate) AS OrderWeek
+FROM tble_Dates
+WHERE year(OrderDate)='2014') AS crosstab PIVOT(sum(Ordertotal) for orderweek in ([14],[15],[16],[17],[18])) as crosstabtable
+
+Q2.
+SELECT Year(OrderDate) AS Year, Datepart(wk,OrderDate) as Week, sum(UnitPrice*Quantity) as TotalOrderAmount
+FROM tble_Dates
+GROUP BY year(OrderDate),DATEPART(wk,Orderdate)
+HAVING DATEPART(wk,OrderDate)=50
+
+Q3.
+SELECT CustomerCity, sum(UnitPrice*Quantity) AS TotalOrderAmount
+FROM tble_Dates
+WHERE month(OrderDate) IN (1,5,9) AND year(OrderDate)=2014
+GROUP BY CustomerCity
+ORDER BY TotalOrderAmount DESC
+
+Q4.
+SELECT OrderID,CustomerLastName,convert(date,OrderDate) as OrderDate, convert(date,dateadd(d,10,OrderDate)) as RequiredArrivalDate
+FROM tble_Dates
+
+Q5.
+SELECT Salesreplastname, avg(datediff(yyyy,SalesRepDateofHire,getdate())) as NumberOfYears
+FROM tble_Dates
+GROUP BY Salesreplastname
+ORDER BY Salesreplastname
+
+
+Chapter 27 -
+
+310.
+UPDATE tbls_Customers_Upd ]
+SET Address = '12 Lark Street'
+WHERE lastname = 'Demizio' AND firstname = 'Michael'
+
+311.
+UPDATE tbls_Customers_Upd
+SET Address = '12 Lark Street', city = 'Albany'
+WHERE lastname = 'Demizio' AND firstname = 'Michael'
+
+312.
+UPDATE tbls_Customers_Upd
+SET zip = '22215'
+WHERE city = 'Denver'
+
+313.
+UPDATE tbls_Customers_Upd
+SET zip = '22730', city = 'Tucson', state = 'AZ'
+WHERE city = 'Denver'
+
+314.
+UPDATE View_SupplierPrices
+SET ProductUnitPrice = ProductUnitPrice * (1+0.05)
+WHERE supplierID = 1
+
+315.
+UPDATE tbls_Products_Upd
+SET ProductUnitPrice =
+CASE
+WHEN supplierid=1  THEN ProductUnitPrice*(1.1)
+WHEN supplierid=2  THEN ProductUnitPrice*(1.05)
+WHEN supplierid=3  THEN ProductUnitPrice*(1.1)
+WHEN supplierid=4  THEN ProductUnitPrice*(1.05)
+WHEN supplierid=5  THEN ProductUnitPrice
+WHEN supplierid=6  THEN ProductUnitPrice*(1.02)
+WHEN supplierid=7  THEN ProductUnitPrice*(1.03)
+WHEN supplierid=8  THEN ProductUnitPrice*(1.05)
+WHEN supplierid=9  THEN ProductUnitPrice*(1.15)
+WHEN supplierid=10 THEN ProductUnitPrice*(1.1)
+END
+
+
+316.
+UPDATE tbls_Products_Upd
+SET ProductUnitPrice = ProductUnitPrice * (1+0.20)
+WHERE SupplierID IN
+(SELECT SupplierID FROM Suppliers
+WHERE city= 'Boston' or city = 'Denver')
+
+Chapter 27 Case2 -
+
+Q1.
+UPDATE tble_SalesReps_tr SET city = 'Los Angeles'
+WHERE lastname = 'Anderson' and firstname = 'John'
+
+Q2.
+UPDATE tble_SalesReps_tr SET zip = 83044, DateOfHire = '5/10/2008'
+WHERE lastname = 'Anderson' and firstname = 'Lisa'
+
+Q3.
+UPDATE tble_Products_tr SET ProductUnitPrice = ProductUnitPrice+10
+WHERE ProductUnitPrice < 30
+
+Q4.
+UPDATE tble_Products_tr
+SET ProductUnitPrice = case
+WHEN SupplierID=1 then ProductUnitPrice*1.2
+WHEN SupplierID=3 THEN ProductunitPrice*1.1
+WHEN SupplierID=7 THEN ProductUnitPrice*1.04
+WHEN SupplierID=9 THEN ProductUnitPrice*1.08
+END
+
+Q5.
+UPDATE tble_Products_tr
+SET ProductUnitPrice=ProductUnitPrice-4
+WHERE ProductID IN (SELECT ProductID
+FROM ProductsOrders
+WHERE (unitprice*quantity*discount) >= 32)
+
+Chapter 28 -
+
+320.
+
+Step 1:
+SELECT *
+FROM tbls_Orders_Del
+WHERE orderid = 20
+
+Step 2:
+DELETE
+FROM tbls_Orders_Del
+WHERE orderid = 20
+
+321.
+
+Step 1:
+SELECT *
+FROM tbls_Orders_Del
+WHERE customerid = 2
+
+Step 2:
+DELETE
+FROM tbls_Orders_Del
+WHERE customerid = 2
+
+322.
+
+Step 1:
+SELECT *
+FROM tbls_Orders_Del
+WHERE orderdate BETWEEN '2012/10/15' AND '2012/10/17'
+
+Step 2:
+DELETE
+FROM tbls_Orders_Del
+WHERE orderdate BETWEEN '2012/10/15' AND '2012/10/17'
+
+323.
+SELECT *
+FROM tbls_Orders_Del AS T2
+WHERE OrderID <> (SELECT Max(OrderID)
+FROM tbls_Orders_Del AS T1
+WHERE T2.CustomerID = T1.CustomerID AND T2.SalesRepID = T1.SalesRepID AND T2.ShipperID = T1.ShipperID AND T2.OrderDate = T1.OrderDate)
+
+Step 1:
+
+SELECT *
+FROM tbls_Orders_Del AS T2
+WHERE OrderID <> (SELECT Min(OrderID)
+FROM tbls_Orders_Del AS T1
+WHERE T2.CustomerID = T1.CustomerID AND T2.SalesRepID = T1.SalesRepID AND T2.ShipperID = T1.ShipperID AND T2.OrderDate = T1.OrderDate)
+
+Step 2:
+DELETE  tbls_Orders_Del
+FROM tbls_Orders_Del AS T2
+WHERE OrderID <>  (SELECT Min(OrderID)
+FROM tbls_Orders_Del AS T1
+WHERE T2.CustomerID = T1.CustomerID AND T2.SalesRepID = T1.SalesRepID AND T2.ShipperID = T1.ShipperID AND T2.OrderDate = T1.OrderDate)
+
+324.
+
+Step 1:
+SELECT *
+FROM tbls_Orders_DEL2
+WHERE orderid IN(
+SELECT OrderID
+FROM tbls_Orders_DEL2
+GROUP BY OrderID, CustomerID, ShipperID, OrderDate
+HAVING count(*)>1)
+
+Step 2:
+DELETE
+FROM tbls_Orders_DEL2
+WHERE OrderID IN(
+SELECT OrderID
+FROM tbls_Orders_DEL2 GROUP BY OrderID, CustomerID, ShipperID, OrderDate
+HAVING count(*)>1)
+
+325.
+SELECT * INTO TempTable1
+FROM tbls_Orders_Del
+WHERE orderdate
+BETWEEN '2012/8/15' AND '2012/9/15'
+
+DELETE
+FROM tbls_Orders_Del
+WHERE orderdate  BETWEEN '2012/8/15' AND '2012/9/15'
+
+326.
+SELECT * FROM tbls_Orders_DEL WHERE CustomerID IN
+(SELECT CustomerID FROM Customers
+WHERE city= 'Los Angeles' AND lastname = 'Orlando')
+
+DELETE FROM tbls_Orders_DEL
+WHERE CustomerID IN  (SELECT CustomerID FROM Customers
+WHERE city= 'Los Angeles' AND lastname = 'Orlando')
+
+
+327.
+Select*
+FROM tbls_Orders_DEL
+WHERE OrderID IN(
+SELECT Sum([unitprice]*[quantity]) AS totalOrder
+FROM ProductsOrders
+GROUP BY OrderID
+HAVING Sum([unitprice]*[quantity])>500)
+
+DELETE FROM tbls_Orders_DEL
+WHERE OrderID IN(
+SELECT Sum([unitprice]*[quantity]) AS totalOrder
+FROM ProductsOrders
+GROUP BY OrderID
+HAVING Sum([unitprice]*[quantity])>500)
+
+Chapter 28 Case2 -
+
+Q1.
+SELECT*
+FROM tbls_Orders_Del
+WHERE customerid=20
+
+DELETE FROM tbls_Orders_Del
+WHERE customerid=20
+
+Q2.
+SELECT*
+FROM tbls_Orders_Del
+WHERE SalesRepID=2 AND ShippingCost=36
+
+DELETE FROM tbls_Orders_Del
+WHERE SalesRepID=2 AND ShippingCost=36
+
+Q3.
+SELECT*
+FROM tbls_Orders_Del
+WHERE OrderDate <'2012/12/31'
+
+DELETE
+FROM tbls_Orders_Del
+WHERE OrderDate <'2012/12/31'
+
+Q4.
+SELECT*
+FROM tbls_Orders_Del
+WHERE SalesRepID IN(
+SELECT SalesRepID FROM SalesReps
+WHERE SalesRepID=9 AND SalesRepID=10)
+
+DELETE FROM tbls_Orders_Del
+WHERE SalesRepID IN(
+SELECT SalesRepID FROM SalesReps
+WHERE SalesRepID=9 AND SalesRepID=10)
+
+Q5.
+DELETE
+FROM Tbls_Orders_DEL
+WHERE OrderDate BETWEEN '2014/1/1' AND '2014/1/31' AND ShipperID = 3
+
+Chapter 29.
+
+Chapter 29 -
+
+330.
+SELECT *
+FROM Customers
+WHERE CustomerID
+IN (SELECT CustomerID from tbls_Orders)
+
+331.
+SELECT lastname, firstname, Address, OrderDate, ShippingCost
+FROM Customers LEFT JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+
+332.
+
+SELECT lastname, firstname, Address, OrderDate, ShippingCost
+FROM Customers
+RIGHT JOIN Orders ON Customers.CustomerID = Orders.CustomerID;
+
+333.
+SELECT FirstName, LastName, Address, OrderDate, ShippingCost
+FROM Customers FULL OUTER JOIN Orders
+ON Customers.CustomerID = Orders.CustomerID
+
+334.
+SELECT * FROM Suppliers CROSS JOIN Products
+
+335.
+FROM Suppliers CROSS JOIN salesreps
+WHERE suppliers.city = salesreps.city
+
+336.
+SELECT salesreps.lastname, salesreps.city, Companyname, suppliers.city
+FROM Suppliers inner join salesreps
+ON Suppliers.City = SalesReps.City
+
+338.
+SELECT p1.productID, p1.productname, p2.productname as Component1
+FROM  tbls_Products_Joins AS p1 inner
+JOIN tbls_Products_Joins AS p2 ON p2.Comp1 = p1.ProductID
+
+339.
+SELECT p1.productID, p1.productname, p2.productname as Component1
+FROM  tbls_Products_Joins AS p1 left
+JOIN tbls_Products_Joins AS p2 ON p2.Comp1 = p1.ProductID
+
+Chaper 29 Case2 -
+
+Q1.
+SELECT CompanyName,ContactName,ContactTitle
+FROM Suppliers
+WHERE CompanyName
+IN (SELECT CompanyName from Products)
+
+Q2.
+SELECT CompanyName,ContactName,ContactTitle
+FROM Suppliers LEFT JOIN Products ON Suppliers.SupplierID= Products.SupplierID
+ORDER BY ProductName ASC
+
+Q3.
+SELECT DISTINCT CompanyName,ContactName,ContactTitle,ProductName,ProductUnitPrice,UnitsInStock
+FROM Suppliers right join tble_Products_JOINS ON Suppliers.SupplierID = tble_products_JOINS.SupplierID
+ORDER BY CompanyName
+
+Q4.
+SELECT ProductName,SupplierID,ProductUnitPrice,UnitsInStock,ReorderLevel
+FROM tble_Products_JOINS
+WHERE SupplierID NOT IN (SELECT SupplierID FROM Suppliers)
+
+Q5.
+SELECT ProductName,SupplierID,ProductUnitPrice,UnitsInStock,ReorderLevel
+FROM tble_Products_JOINS
+WHERE SupplierID IS NULL
+
+Chapter 30 -
+
+342.
+SELECT *
+FROM Customers
+WHERE CustomerID
+IN (Select CustomerID FROM Orders
+WHERE  (DatePart(q,[OrderDate])=4 AND Year([orderdate])=2014))
+
+343.
+SELECT *
+FROM Customers C
+WHERE EXISTS
+(Select CustomerID FROM Orders O WHERE C.CustomerID = O.CustomerID AND
+(DatePart(q,[OrderDate])=4 AND Year([orderdate])=2014))
+
+344.
+SELECT *
+FROM Customers
+WHERE CustomerID
+NOT IN (SELECT CustomerID
+FROM tbls_Orders
+WHERE OrderDate BETWEEN '2014/1/1' AND '2014/6/30')
+
+345.
+SELECT *
+FROM Customers C
+WHERE NOT EXISTS
+
+346.
+SELECT *
+FROM tbls_orders
+WHERE CustomerID
+NOT IN (SELECT CustomerID FROM Customers)
+
+347.
+SELECT *
+FROM tbls_Orders
+WHERE OrderID IN
+(SELECT OrderID
+FROM tbls_Orders
+GROUP BY OrderID
+HAVING count(*)>1)
+ORDER BY OrderID
+
+348.
+SELECT *
+FROM Orders
+WHERE shippeddate = (SELECT max(ShippedDate) FROM Orders)
+
+349.
+SELECT *
+FROM customers
+WHERE exists
+(SELECT *
+FROM salesreps
+WHERE customers.city = salesreps.city)
+
+350.
+SELECT productname, ProductUnitPrice
+FROM Products
+WHERE ProductUnitPrice > (SELECT avg(ProductUnitPrice) FROM Products)
+ORDER BY ProductUnitPrice DESC
+
+351.
+FROM orders O
+WHERE EXISTS (SELECT orderid, Sum([unitprice]*[quantity])
+FROM ProductsOrders P
+WHERE O.OrderID = P.OrderID
+GROUP BY orderid
+HAVING (Sum([unitprice]*[quantity]))>500)
+
+352.
+ SELECT *  FROM orders  WHERE orderid  IN (SELECT orderid FROM ProductsOrders WHERE Discount =0)
+
+353.
+UPDATE tbls_Products_Upd
+SET ProductUnitPrice = ProductUnitPrice * (1+0.20)
+WHERE SupplierID IN
+(SELECT SupplierID FROM Suppliers
+WHERE city= 'Boston' or city = 'Dallas')
+
+354.
+DELETE
+FROM tbls_Orders_DEL
+WHERE CustomerID IN
+(SELECT CustomerID FROM Customers
+WHERE city=  'Los Angeles' OR city = 'Orlando')
+
+355.
+SELECT OrderID,
+
+(SELECT Count(*) FROM ProductsOrders P
+WHERE O.OrderID=P.OrderID AND (discount = 0) ) AS '0%',
+
+(SELECT Count(*) FROM ProductsOrders P
+WHERE O.OrderID=P.OrderID AND (discount = 0.15) ) AS '15%',
+
+(SELECT Count(*) FROM ProductsOrders P
+WHERE O.OrderID=P.OrderID AND (discount = 0.20) ) AS '20%'
+
+From Orders As O
+
+
+Chapter 30 Case2 -
+
+Q1.
+SELECT FirstName, LastName, Title
+FROM SalesReps
+WHERE SalesRepID IN
+(SELECT SalesRepID
+FROM Orders
+WHERE OrderDate BETWEEN '2014/1/1' AND '2014/6/30')
+
+Q2.
+SELECT FirstName, LastName, Title
+FROM SalesReps S
+WHERE NOT EXISTS
+(SELECT SalesRepID
+FROM Orders O
+WHERE S.SalesRepID= O.SalesRepID AND OrderDate BETWEEN '2014/6/1' AND '2014/7/1')
+
+Q3.
+SELECT*
+FROM tble_Orders
+WHERE shippeddate =(SELECT max(ShippedDate) FROM tble_Orders)
+
+Q4.
+SELECT OrderID, OrderDate, ShippingCost
+FROM tble_Orders
+WHERE ShippingCost> (SELECT AVG(ShippingCost) FROM tble_Orders)
+ORDER BY OrderID ASC
+
+Q5.
+SELECT s.lastname,
+
+(SELECT Count(*)  FROM tble_Orders T
+WHERE YEAR( T.orderdate ) = 2012 AND T.SalesRepID = s.SalesRepID
+GROUP BY SalesRepID) AS '2012',
+
+(SELECT Count(*)  FROM tble_Orders T
+WHERE YEAR( T.orderdate ) = 2013 AND T.SalesRepID = s.SalesRepID
+GROUP BY SalesRepID) AS '2013',
+
+(SELECT Count(*)  FROM tble_Orders T
+WHERE YEAR( T.orderdate ) = 2014 AND T.SalesRepID = s.SalesRepID
+GROUP BY SalesRepID) AS '2014'
+
+FROM SalesReps s
+ORDER BY s.LastName ASC
+
+Chapter 31.
+358.
+CREATE PROCEDURE sp_GetProductData
+AS
+SELECT ProductName, QuantityPerUnit, ProductUnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel, SKU
+FROM Products
+
+exec sp_GetProductData
+
+359.
+CREATE PROCEDURE sp_Param_UnitsInStock
+@UnitsInStock
+smallint
+AS
+SELECT ProductName, QuantityPerUnit, ProductUnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel, SKU
+FROM Products
+WHERE UnitsInStock = @UnitsInStock
+
+
+360.
+CREATE PROCEDURE sp_Param_Multiple
+@UnitsInStock smallint,
+@UnitsOnOrder smallint
+AS
+SELECT ProductName, QuantityPerUnit, ProductUnitPrice, UnitsInStock, UnitsOnOrder,
+ReorderLevel, SKU
+FROM Products  W
+HERE UnitsInStock = @UnitsInStock AND UnitsOnOrder = @UnitsOnOrder
+
+361.
+CREATE PROCEDURE sp_Param_GetSupplierID
+@ProductID int,
+@SupplierID int output
+AS SELECT @SupplierID = SupplierID
+FROM Products
+WHERE ProductID = @ProductID
+
+362.
+CREATE PROCEDURE sp_Cond_Inventory
+@UnitPrice money,
+@Discount decimal(2,2)
+AS
+IF @UnitPrice > (Select AVG(ProductUnitPrice) FROM Products)
+  BEGIN
+  Select ProductName, QuantityPerUnit, ProductUnitPrice as OriginalPrice, ProductUnitPrice* (1-@Discount) AS NewPrice, SKU FROM Products
+  END
+ELSE
+  BEGIN
+      Select ProductName, QuantityPerUnit, ProductUnitPrice as OriginalPrice, ProductUnitPrice * (1- .05) As NewPrice, SKU FROM Products
+END
+
+
+363.
+CREATE PROCEDURE sp_UpdProducts
+@SupplierID int,
+@PriceChange decimal (2, 2)
+AS
+UPDATE tbls_Products_Upd
+SET ProductUnitPrice = ProductUnitPrice * (1 + @PriceChange)
+WHERE SupplierID = @SupplierID
+
+execute sp_UpdProducts  @SupplierID = 1, @PriceChange = 0.03
+
+364.
+CREATE PROCEDURE sp_ErrorHandling
+@ProductID int,
+@SupplierID int,
+@ProductName text
+AS
+BEGIN TRY
+NSERT INTO tbls_Products_sp (ProductID, SupplierID, ProductName)
+VALUES (@ProductID, @SupplierID, @ProductName)
+END TRY
+BEGIN CATCH
+PRINT 'Supplier does not exist'
+END CATCH
+
+Q1.
+CREATE PROCEDURE sp_Chapter31_Case2_Q1 AS SELECT FirstName,LastName,Address,City,State,Zip
+FROM SalesReps
+
+Q2.
+CREATE PROCEDURE sp_Chapter31_Case2_Q2 @ZIP as smallint AS SELECT FirstName,LastName,Address,City,State,Zip
+FROM SalesReps
+WHERE zip = @zip
+
+Q3.
+CREATE PROCEDURE [dbo].[chapter31_Q3_2] @state varchar(255),@city varchar(255) AS SELECT * from SalesReps
+WHERE (state=@state or city=@city)
+
+Q4.
+CREATE PROCEDURE Chapter31_Q4 @lastname varchar(255) AS SELECT SalesRepID
+FROM SalesReps
+WHERE LastName=@LastName
+
+Q5.
+ALTER PROCEDURE Chapter31_Q5 @bonus smallint AS IF @bonus=20 BEGIN SELECT lastname,firstname,dateofhire,@bonus as smallint
+FROM SALESREPS
+WHERE DateofHire < '12/31/2000'
+END ELSE BEGIN SELECT lastname,firstname,dateofhire,@bonus as smallint
+FROM SalesReps WHERE DateofHire > '12/31/2000' END
+
+Chapter 32 -
+
+367.
+CREATE TRIGGER tr_ReorderLevel_NoChange ON tbls_Products_tr
+AFTER UPDATE AS
+  If update(ReorderLevel)
+  BEGIN
+    RAISERROR ('The reorder level for this product cannot be updated.', 0, 1) ROLLBACK
+    RETURN
+  END
+
+368.
+CREATE TRIGGER tr_ReorderLevel_SKU_NoChange ON tbls_Products_tr
+AFTER UPDATE AS
+  IF (update(ReorderLevel) OR update (SKU))
+  BEGIN
+    RAISERROR ('The reorder level or SKU value for this product cannot be updated.', 0, 1) ROLLBACK
+    RETURN
+  END
+
+369.
+CREATE TRIGGER tr_UnitsOnOrder_DecemberOnly ON tbls_Products_tr
+AFTER UPDATE AS
+  If update(UnitsOnOrder) AND DatePart(m, GetDate()) <> 12
+  BEGIN
+    RAISERROR ('These products can be purchased only in December', 0, 1) ROLLBACK
+    RETURN
+  END
+
+370.
+CREATE TRIGGER tr_CheckQuantityUnitsInStock ON tbls_Products_tr
+AFTER INSERT, UPDATE AS
+  IF EXISTS (SELECT * FROM inserted WHERE unitsinstock > 50)
+  BEGIN
+    RAISERROR ('quantity entered for UnitsInStock exceeds 50 units. Enter a lesser number', 0, 1) ROLLBACK
+    RETURN
+  END
+
+371.
+CREATE TRIGGER tr_UnitsOnOrder_MultipleCriteria ON tbls_Products_tr
+AFTER UPDATE AS
+  If update(UnitsOnOrder)
+IF EXISTS (SELECT 1 FROM inserted i WHERE (i.productname = 'Crispy Pears' OR i.ProductName = 'Chunky Pretzels') AND DatePart(m, GetDate()) <> 12)
+
+BEGIN
+  RAISERROR ('Crispy Pears and Chunky Pretzels can be purchased only in December', 0, 1) ROLLBACK
+  RETURN
+END
+
+372.
+CREATE TRIGGER tr_AuditInserted
+ON tbls_Products_tr
+AFTER INSERT AS
+INSERT INTO tbls_Products_tr_Audit SELECT * FROM inserted
+
+373.
+CREATE TRIGGER tr_AuditDeleted
+ON tbls_Products_tr
+AFTER DELETE AS
+INSERT INTO tbls_Products_tr_Audit SELECT * FROM deleted
+
+374.
+CREATE TRIGGER tr_SendEmail ON [dbo].[tbls_Products_tr] AFTER UPDATE AS
+If UPDATE (ReorderLevel) BEGIN
+EXEC msdb.dbo.sp_send_dbmail
+@recipients = 'someone@domain.com',
+@from_address = '"Pindaro Demertzoglou" < someone@domain.com >',
+@reply_to = ' someone@domain.com ',
+@profile_name = 'Database Server Email',
+@subject = 'Reorder Level Updated',
+@body = 'Can you please check the reorder level values? They have been recently updated.'; END
+If UPDATE (UnitsOnOrder)
+BEGIN
+INSERT INTO tbls_Products_tr_Audit SELECT * FROM inserted
+END
+
+375.
+CREATE TRIGGER tr_UpdateControl ON SalesReps INSTEAD OF UPDATE AS
+
+  IF UPDATE(lastname)
+  BEGIN
+    RAISERROR ('cannot change lastname', 0, 1) ROLLBACK
+    RETURN
+  END
+
+IF UPDATE(firstname)
+  BEGIN
+    RAISERROR ('cannot change firstname', 0, 1) ROLLBACK
+    RETURN
+  END
+
+  IF UPDATE(title)
+  BEGIN
+  RAISERROR ('cannot change title', 0, 1) ROLLBACK
+  RETURN
+END
+
+
+Chapter 32 Case2 -
+
+Q1.
+CREATE TRIGGER tr_SalesRepName_NoChange ON tble_SalesReps_tr
+AFTER UPDATE AS If (update(LastName) OR update(FirstName))
+BEGIN RAISERROR ('The name of the employee cannot be changed.', 0, 1) ROLLBACK RETURN END
+
+Q2.
+CREATE TRIGGER tr_SalesRepName_NoChange ON tble_SalesReps_tr
+AFTER UPDATE AS If (update(Salary) and month(GETDATE())<>6)
+BEGIN RAISERROR ('Salary changes are allowed only in the month of June', 0, 1) ROLLBACK RETURN END
+
+Q3.
+CREATE TRIGGER tr_SalesRepName_NoChange ON tble_SalesReps_tr
+AFTER UPDATE AS If (update(Salary) and salary<100000)
+BEGIN RAISERROR ('Employees with more than 10 years of experience cannot receive less than a $100,000í, 0, 1) ROLLBACK RETURN END
+
+Q4.
+CREATE TRIGGER tr_SalesRepName_NoChange ON tble_SalesReps_tr
+AFTER UPDATE AS If (update(Salary) and (year(getdate())-year(dateofbirth)>50)
+BEGIN RAISERROR ('Provide an additional three percent of salary increase for this employee', 0, 1) ROLLBACK RETURN END
+
+Q5.
+CREATE TRIGGER tr_AuditInserted ON tble_SalesReps_tr
+AFTER INSERT AS INSERT INTO tble_Salesreps_tr_Audit SELECT * FROM inserted
