@@ -2,7 +2,7 @@
 
 My work in SSAS & SSIS from RPI's MGMT 4170 Data Resource Management course
 
-Course: MGMT 4170 Data Resource Management
+Course: MGMT 4170 Data Resource Management, Fall 2017
 
 Professor: Pindaro Demertzoglou
 
