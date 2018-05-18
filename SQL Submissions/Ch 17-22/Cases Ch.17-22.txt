@@ -1,0 +1,212 @@
+ADRM
+
+Bryan Dieudonne
+
+Cases Ch.17-22
+
+=====
+
+
+select productid, sum(quantity) as TotalProductUnitsSold
+from productsorders
+group by productid
+order by TotalProductUnitsSold desc
+
+select productid, sum([unitprice]*[quantity]) as TotalOrderAmount
+from productsorders
+group by productid
+order by TotalOrderAmount desc
+
+select shipperid, min(shippingcost) as MinShippingCost, avg(shippingcost) as AvgShippingCost, 
+max(shippingcost) as MaxShippingCost
+from orders
+group by shipperid
+
+select productid, sum([quantity]*[unitprice]) as TotalOrderAmount
+from productsorders
+where productid not in (1, 14, 15, 28)
+group by productid
+having sum(unitprice*quantity)>2000
+
+
+select orderid, productid, sum(quantity*unitprice) as TotalOrderAmount
+from productsorders
+group by orderid, productid
+
+
+select supplierid, count(productid)
+from products
+group by supplierid
+
+select min(quantity) as MinSold, avg(quantity) as AverageSold, max(quantity) as MaxSold, sum(quantity) as TotalUnitsSold
+from productsorders
+
+select productid, min(quantity) as MinSold, avg(quantity) as AverageSold, max(quantity) as MaxSold, sum(quantity) as TotalUnitsSold
+from productsorders
+group by productid
+order by productid asc
+
+select productid, min(quantity) as MinSold, avg(quantity) as AverageSold, max(quantity) as MaxSold, sum(quantity) as TotalUnitsSold
+from productsorders
+where productid not between 35 and 70
+group by productid
+order by productid asc
+
+select productid, min(quantity) as MinSold, avg(quantity) as AverageSold, max(quantity) as MaxSold, sum(quantity) as TotalUnitsSold
+from productsorders
+where productid not between 35 and 70
+group by productid
+having sum(quantity)>=100
+order by productid asc
+
+ch.19 
+1. select*
+from
+(select productname, orderyear, ordertotal from view_crosstabbase)
+as crosstab
+pivot(sum(ordertotal)
+for orderyear in ([2012],[2013],[2014]))
+as crosstabtable
+
+2. select*
+from
+(select productname, orderyear, ordertotal from view_crosstabbase
+where productname not in ('Chili salsa','Coffee biscuits','Crispy Pears'))
+as crosstab
+pivot(sum(ordertotal)
+for orderyear in ([2012],[2013],[2014]))
+as crosstabtable
+
+3. select*
+from
+(select productname, orderyear, 
+iif(unitprice>30,ordertotal*(0.90),ordertotal*(0.95)) as ordertotal
+from view_crosstabbase
+where productname not in ('Chili salsa','Coffee biscuits','Crispy Pears'))
+as crosstab
+pivot (sum(ordertotal)
+for orderyear in ([2012],[2013],[2014]))
+as crosstabtable
+
+4. select*
+from
+(select productname, orderyear, 
+iif(unitprice>30,ordertotal*(0.90),ordertotal*(0.95)) as ordertotal
+from view_crosstabbase
+where productname not in ('Chili salsa','Coffee biscuits','Crispy Pears'))
+as crosstab
+pivot (sum(ordertotal)
+for orderyear in ([2013],[2014]))
+as crosstabtable
+
+5. select*
+from
+(select
+case
+when unitprice between 0 and 10 then 'Price 1-10'
+when unitprice between 11 and 20 then 'Price 11-20'
+when unitprice between 21 and 30 then 'Price 21-30'
+when unitprice>31 then 'Price > 31'
+end
+as ProductPriceRange,
+orderyear, ordertotal from view_crosstabbase)
+as crosstab
+pivot(sum(ordertotal)
+for orderyear in ([2012],[2013],[2014]))
+as crosstabtable
+
+ch.20
+1. select productid, productname, quantityperunit, 
+iif(productid in (5, 6, 7), [productunitprice]*0.80, [productunitprice]) as NewProductPrice
+from products
+
+
+2. select productid, productname, quantityperunit,
+case
+when productid=5 then productunitprice*0.80
+when productid=6 then productunitprice*0.80
+when productid=7 then productunitprice*0.80
+else productunitprice
+end
+as NewProductPrice
+from products
+
+3. select productname, unitsinstock,
+case
+when unitsinstock<20 then productunitprice*0.80
+when unitsinstock between 20 and 29 then productunitprice*0.75
+when unitsinstock between 30 and 39 then productunitprice*0.70
+when unitsinstock >=40 then productunitprice*0.65
+end
+as NewProductPrice
+from products
+
+4. select productname, unitsinstock, unitsonorder,
+case
+when (unitsinstock+unitsonorder)<20 then productunitprice*0.80
+when (unitsinstock+unitsonorder) between 20 and 29 then productunitprice*0.75
+when (unitsinstock+unitsonorder) between 30 and 39 then productunitprice*0.70
+when (unitsinstock+unitsonorder) >=40 then productunitprice*0.65
+end
+as NewProductPrice
+from products
+
+5. select productname, unitsinstock, unitsonorder,
+case
+when (unitsinstock+unitsonorder)<20 then '20%'
+when (unitsinstock+unitsonorder) between 20 and 29 then '25%'
+when (unitsinstock+unitsonorder) between 30 and 39 then '30%'
+when (unitsinstock+unitsonorder) >=40 then '35%'
+end
+as DiscountExtended
+from products
+
+ch.21
+1. select lastname, firstname, city, state, zip
+from customers
+union
+select lastname, firstname, city, state, zip
+from salesreps
+union
+select companyname, contactname, city, state, zip
+from suppliers
+
+2. select lastname, firstname, city, state, zip into newtab
+from customers
+union
+select lastname, firstname, city, state, zip
+from salesreps
+union
+select companyname, contactname, city, state, zip
+from suppliers
+
+3. select 'local' as location, sku, count(productid) as numberofproducts
+from tbls_products_local
+group by sku
+union all
+select 'regional' as location, sku, count(productid) as numberofproducts
+from tbls_products_regional
+group by sku
+
+4. select sku, count(productid) as NumberOfProducts
+from tbls_products_local
+group by sku
+union
+select sku, count(productid) as NumberOfProducts
+from tbls_products_regional
+group by sku
+
+5. select sku, count(productid) as NumberOfProducts
+from tbls_products_local
+where productunitprice between 20 and 35
+group by sku
+having count(productid)>1
+union
+select sku, count(productid) as NumberOfProducts
+from tbls_products_regional
+where productunitprice between 20 and 35
+group by sku
+having count(productid)>1
+
+ch.22
+1. 

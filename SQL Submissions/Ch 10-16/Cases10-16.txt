@@ -1,0 +1,212 @@
+ADRM
+
+Bryan Dieudonne
+
+Cases Ch.10-16
+
+=====
+
+
+Select *
+From Orders
+Where OrderDate >= '2013-04-01'
+AND OrderDate <= '2013-04-30'
+Order by OrderDate DESC
+
+Select OrderID, CustomerID, OrderDate
+From Orders
+Where datepart(month, OrderDate) in ('03','04')
+and datepart(year, OrderDate) in ('2012','2013','2014')
+
+Select OrderID, CustomerID, OrderDate, ShippingCost
+From Orders
+Where ShippingCost >=30 and shippingcost <=40
+
+Select OrderID, OrderDate, ShippingCost
+From Orders
+Where shippingcost <> 35
+
+Select OrderID, CustomerID, OrderDate, ShippingCost
+From Orders
+Where ShipperID = 3
+
+Select OrderID, State, City, ShippedDate, OrderTotal
+from tbls_CustomerOrders
+where month(shippeddate) between 04 and 12
+and year(shippeddate) = 2014
+order by shippeddate DESC
+
+Select OrderID, State, City, OrderDate, OrderTotal
+from tbls_CustomerOrders
+where year(orderdate) = 2014
+and month(orderdate) between 06 and 12
+and OrderTotal between 200 and 300
+order by ordertotal ASC
+
+Select *
+from tbls_customerorders
+where month(shippeddate) = 06
+and year(shippeddate) = 2014
+
+Select OrderID, State, City, OrderDate, OrderTotal
+from tbls_CustomerOrders
+where ordertotal between 0 and 50
+order by ordertotal asc
+
+Select OrderID, OrderDate, ShippedDate, OrderTotal
+From tbls_CustomerOrders 
+Where month(orderdate) between 09 and 12
+and year(orderdate) = 2014
+and ordertotal between 300 and 500
+order by ordertotal DESC
+
+Select FirstName, LastName, Address, City, State, Zip
+From SalesReps
+Where Zip IN (22459, 12189)
+order by lastname ASC
+
+Select *
+from orders 
+where customerid IN
+(select customerid from customers where 
+firstname in ('Andrew','Lisa','William') and lastname in ('Demichele', 'Zartons','Teall'))
+order by customerid 
+
+Select *
+From salesreps
+where salesrepid NOT IN
+(select salesrepid from orders where 
+year(orderdate)=2014 and month(orderdate)=12 and day(orderdate) between 17 and 31)
+order by lastname asc
+
+Select *
+from orders
+where customerid NOT IN
+(select customerid from customers)
+
+Select *
+From Customers
+Where CustomerID IN
+(select customerid from orders where
+year(orderdate)= 2014 and month(orderdate) between 02 and 03)
+order by lastname ASC
+
+Select DISTINCT state
+from suppliers
+order by state ASC
+
+Select DISTINCT city 
+from salesreps
+order by city ASC
+
+Select DISTINCT city, count(salesrepid) as CountNumber
+from salesreps
+group by city  
+order by city ASC
+
+Select DISTINCT discount
+from productsorders
+order by discount DESC
+
+Select DISTINCT discount, count(productID) as ProductNumber
+from productsorders
+group by discount
+order by discount ASC
+
+Select TOP 5 firstname, lastname, title, dateofhire
+from salesreps
+order by DateofHire ASC
+
+Select TOP 10 OrderID, CustomerID, OrderDate, ShippedDate
+from orders
+order by shippeddate DESC
+
+Select TOP 20 OrderID, Sum(([unitprice]*[quantity])) AS OrderAmount
+From ProductsOrders
+Group By orderid
+Order By Sum(([unitprice]*[quantity])) DESC
+
+Select TOP 10 OrderID, Sum(([unitprice]*[quantity])) AS OrderAmount
+From ProductsOrders
+Where ProductID IN
+(Select ProductID From Products Where
+ProductName = 'California Original Pistachios - 1 lb. Bag')
+Group by OrderID
+Order By Sum(([unitprice]*[quantity])) DESC
+
+Select TOP 3 SalesRepID, count(OrderID) as CountOfOrders
+From orders
+group by SalesRepID
+Order by CountOfOrders DESC
+
+Select ProductName, ProductUnitPrice, UnitsInStock, ReorderLevel, (UnitsInStock - ReorderLevel) as UnitStatus
+From Products
+Order by ProductName ASC
+
+Select ProductName, UnitsInStock, UnitsOnOrder, ReorderLevel, (ReorderLevel - ([UnitsInStock]+ [UnitsOnOrder])) As UnitsToOrder
+From Products
+Order by ProductName ASC
+
+Select OrderID, sum(([UnitPrice]*[Quantity])) - sum(([UnitPrice]*[Quantity]*[Discount])) AS OrderTotal
+From ProductsOrders
+Group by OrderID
+
+Select OrderID, ProductID, UnitPrice, Discount, 
+IIF(Discount>.15,.15,[Discount])
+AS AdjustedDiscount
+From ProductsOrders
+
+SELECT productname,
+CASE
+When SupplierID = 1 Then ProductUnitPrice*(1-0.25) 
+When SupplierID = 2 Then ProductUnitPrice*(1-0.25) 
+When SupplierID = 3 Then ProductUnitPrice*(1-0.38) 
+When SupplierID = 4 Then ProductUnitPrice*(1-0.35) 
+Else ProductUnitPrice*(1-0.8)
+End
+AS ProductPrice
+FROM Products
+
+select (title+''+firstname+''+lastname+''+address+''+city+''+state+''+zip)
+as MailingLabel
+from salesreps
+order by lastname asc
+
+select 'Dear'+' '+(contactname)+','+' '+'due to the recent downturn in the market we would like to ask for a 5% discount for the products we buy from you. Please let us know within the week if this is a possibility.'
+as SupplierLetter
+from suppliers
+order by contactname asc
+
+select iif(([dateofhire]<'2000-12-31'),'Dear'+' '+(firstname)+''+','+' '+'you are now working with us for more than ten years and the company highly appreciates your work and loyalty. 
+You are invited to our family dinner this Friday night at 6:30 PM.',null)
+as EmployeeLetter
+from salesreps
+order by lastname asc
+
+select 
+case
+when state='NY' then 'Dear'+' '+[firstname]+''+','+' '+
+'Our major competitor cut prices by 15%. Cut our own prices by up to 20% but not more.'
+when state='MA' then 'Dear'+' '+[firstname]+''+','+' '+
+'Start introducing our new product immediately before any of our competitors enters the market with their own updated products.'
+when state='TX' then 'Dear'+' '+[firstname]+''+','+' '+
+'We were able to get significant discounts from our suppliers and as such try to increase markey share by reducing our current prices by 20% for the next two months.'
+end
+as SalesRepLetter
+from salesreps
+order by lastname asc
+
+select
+case
+when state='NY' then 'Dear'+ ' '+[firstname]+''+','+' '+[lastname]+''+'.'+' '+
+'For the next 30 days only, take the opportunity to obtain our product at the generous discount rate of 15%.'
+when state='TX' then 'Dear'+ ' '+[firstname]+''+','+' '+[lastname]+''+'.'+' '+
+'For the next 30 days only, take the opportunity to obtain our product at the generous discount rate of 20%.'
+when state='FL' then 'Dear'+ ' '+[firstname]+''+','+' '+[lastname]+''+'.'+' '+
+'For the next 30 days only, take the opportunity to obtain our product at the generous discount rate of 25%.'
+when state='CA' then 'Dear'+ ' '+[firstname]+''+','+' '+[lastname]+''+'.'+' '+
+'For the next 30 days only, take the opportunity to obtain our product at the generous discount rate of 20%.'
+end
+as CustomerDiscountLetter
+from Customers
+order by lastname asc

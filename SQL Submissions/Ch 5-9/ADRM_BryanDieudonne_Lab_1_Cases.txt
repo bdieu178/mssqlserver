@@ -1,0 +1,176 @@
+Advanced Data Resource Management
+
+Lab - Cases
+
+
+=======
+
+Chapter 5 -
+
+1.
+Select *
+INTO products52_backup
+from products
+
+2.
+Select productname, quantityperunit, productunitprice, unitsinstock
+INTO Products53_Backup
+FROM products
+WHERE supplierID IN (5,6,7,8,9)
+
+3.
+Create Table Products54
+([ProductID] int identity (1,1) Primary key not null,
+[ProductName] nvarchar(50),
+[Distributor]nvarchar(50),
+[UnitPrice]money,
+[UnitsInStock]smallint)
+
+4.
+INSERT INTO Products54(ProductID, ProductName, UnitPrice)
+Select ProductID, ProductName, ProductUnitPrice
+FROM products
+WHERE ProductUnitPrice > 25
+
+5.
+Select *
+FROM Products
+WHERE ProductUnitPrice > 30
+ORDER by productname ASC
+
+======
+
+Chapter 6
+
+1.
+Select *
+FROM Products
+WHERE ProductUnitPrice > 30
+ORDER by productname ASC
+
+2.
+Select *
+FROM customers
+WHERE State IN ('NY','MA','AZ','TX')
+
+3.
+Select *
+FROM customers
+WHERE State= 'NY'
+UNION
+Select *
+FROM customers
+WHERE State= 'MA'
+UNION
+Select *
+FROM customers
+WHERE State= 'AZ'
+UNION
+Select *
+FROM customers
+WHERE State= 'TX'
+
+4.
+Select *
+FROM Customers
+WHERE State NOT IN ('CA','AZ','MA')
+
+5.
+Select *
+FROM customers
+WHERE zip NOT IN ('22459')
+
+=========
+
+Chapter 7
+
+1.
+Select State, City, LastName, FirstName
+FROM customers
+ORDER by state, city
+ASC
+
+2.
+Select State, City, LastName, FirstName
+FROM customers
+ORDER by state asc, city desc
+
+3.
+Select TOP 10 ShippedDate, OrderID, CustomerID, OrderDate, ShippingCost
+FROM orders
+ORDER by shippeddate desc
+
+4.
+Select top 10 ShippingCost, OrderID, CustomerID, OrderDate, ShippedDate
+FROM orders
+ORDER by shippingcost desc
+
+5.
+Select CustomerID, FirstName, LastName, City, State
+FROM customers
+ORDER by
+CASE city
+WHEN 'Boston' then 1
+WHEN 'Albany' then 2
+WHEN 'Orlando' then 3
+WHEN 'Miami' then 4
+ELSE 5
+end
+
+=========
+
+Chapter 8
+
+1.
+Select *
+FROM products
+WHERE productname like '[a-e]%'
+
+2.
+Select *
+FROM Products
+WHERE productname like '[a,d,e,k,l]%'
+ORDER by productname
+
+3.
+Select ProductName, ProductUnitPrice, SKU
+FROM products
+WHERE SKU like 'PD[a-z]%[0-9][0-9][0-9][0-9]'
+
+4.
+Select ProductName, ProductUnitPrice, SKU
+FROM products
+WHERE SKU like '[a-p]%[a-z]%-[0-9][0-9]89'
+
+5.
+Select ProductName, ProductUnitPrice, SKU
+FROM products
+WHERE SKU like '[a-z]%-2345'
+
+===============
+
+Chapter 9
+
+1.
+Select ProductName, ProductUnitPrice, SKU
+FROM products
+WHERE productname like '%%%'
+
+2.
+Select *
+FROM products
+WHERE productname like '%[0-9]%'
+
+3.
+Select productname, sku
+FROM products
+WHERE sku like '% %'
+
+4.
+Create Index IndProductName on products(productname)
+
+5.
+Select *
+FROM products
+WHERE productunitprice like '[1,5]%[0-9]%'
+ORDER by productunitprice asc
